@@ -1,0 +1,10 @@
+[
+  {
+    "model": "IsolationForest",
+    "params": {
+      "behaviour": "new",
+      "contamination": 0.15,
+      "random_state": 42
+    }
+  }
+]
