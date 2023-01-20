@@ -11,7 +11,7 @@ VIRTUALENV := conda
 CONDA_EXE ?= ~/anaconda3/bin/conda
 EASYDATA_LOCKFILE := environment.$(ARCH).lock.yml
 
-$$(EASYDATA_LOCKFILE): environment.yml
+$(EASYDATA_LOCKFILE): environment.yml
 ifeq (conda, $(VIRTUALENV))
 	$(CONDA_EXE) env update -n $(PROJECT_NAME) -f $<
 	$(CONDA_EXE) env export -n $(PROJECT_NAME) -f $@
