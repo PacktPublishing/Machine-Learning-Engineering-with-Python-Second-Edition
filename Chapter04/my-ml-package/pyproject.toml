@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "my-ml-package"
+version = "0.1.0"
+description = ""
+authors = ["AndyMc629 <andrewpmcmahon629@gmail.com>"]
+readme = "README.md"
+packages = [{include = "my_ml_package"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.2.1"
+pytest-mock = "*"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+
