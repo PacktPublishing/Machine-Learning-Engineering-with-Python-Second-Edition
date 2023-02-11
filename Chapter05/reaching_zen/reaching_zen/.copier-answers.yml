@@ -1,0 +1,16 @@
+# Changes here will be overwritten by Copier; NEVER EDIT MANUALLY
+_commit: 88e5d96
+_src_path: gh:zenml-io/zenml-project-templates
+auto_format: true
+configurable_dataset: true
+configurable_model: true
+email: andrewpmcmahon629@gmail.com
+full_name: Andy McMahon
+open_source_license: mit
+project_name: zenml-mlewp1
+sklearn_dataset_name: wine
+sklearn_model_name: RandomForestClassifier
+template: starter
+use_custom_artifacts: true
+use_step_params: true
+version: 0.1.0
