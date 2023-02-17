@@ -1,22 +1,23 @@
 from typing import List
 
-from kfp import client
-from kfp import dsl
-from kfp.dsl import Dataset
-from kfp.dsl import Input
-from kfp.dsl import Model
-from kfp.dsl import Output
+from kfp import Client
+from kfp.v2 import dsl
+from kfp.v2.dsl import Dataset
+from kfp.v2.dsl import Input
+from kfp.v2.dsl import Model
+from kfp.v2.dsl import Output
 
 
 @dsl.component(packages_to_install=['pandas==1.3.5'])
 def create_dataset(iris_dataset: Output[Dataset]):
     import pandas as pd
 
-    csv_url = 'https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data'
+    csv_url = "https://archive.ics.uci.edu/ml/machine-learning-databases/iris/iris.data"
     col_names = [
-        'Sepal_Length', 'Sepal_Width', 'Petal_Length', 'Petal_Width', 'Labels'
+        "Sepal_Length", "Sepal_Width", "Petal_Length", "Petal_Width", "Labels"
     ]
-    df = pd.read_csv(csv_url, names=col_names)
+    df = pd.read_csv(csv_url)
+    df.columns = col_names
 
     with open(iris_dataset.path, 'w') as f:
         df.to_csv(f)
@@ -98,10 +99,10 @@ def my_pipeline(
             n_neighbors=n_neighbors)
 
 
-#endpoint = 'http://localhost:8080' #as a result of port-forwarding.
+endpoint = 'http://localhost:8080' #as a result of port-forwarding.
 # got this from running kubectl cluster-info --context kind-mlewp (this is cluster name)
-endpoint = 'https://127.0.0.1:50663' 
-kfp_client = client.Client(host=endpoint)
+#endpoint = 'https://127.0.0.1:50663' 
+kfp_client = Client(host=endpoint)
 run = kfp_client.create_run_from_pipeline_func(
     my_pipeline,
     arguments={
