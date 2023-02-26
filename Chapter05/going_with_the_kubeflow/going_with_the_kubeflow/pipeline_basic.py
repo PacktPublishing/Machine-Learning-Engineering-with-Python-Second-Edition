@@ -1,6 +1,7 @@
 from typing import List
 
 from kfp import Client
+import kfp.dsl
 from kfp.v2 import dsl
 from kfp.v2.dsl import Dataset
 from kfp.v2.dsl import Input
@@ -105,6 +106,7 @@ endpoint = 'http://localhost:8080' #as a result of port-forwarding.
 kfp_client = Client(host=endpoint)
 run = kfp_client.create_run_from_pipeline_func(
     my_pipeline,
+    mode=kfp.dsl.PipelineExecutionMode.V2_COMPATIBLE,
     arguments={
         'min_max_scaler': True,
         'standard_scaler': False,
