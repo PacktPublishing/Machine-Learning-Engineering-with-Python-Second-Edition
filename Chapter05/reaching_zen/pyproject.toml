@@ -8,7 +8,8 @@ packages = [{include = "reaching_zen"}]
 
 [tool.poetry.dependencies]
 python = ">=3.9,<3.11"
-zenml = {extras = ["templates"], version = "^0.33.0"}
+zenml = {version = "0.33.0", extras = ["server"]}
+scikit-learn = "^1.2.1"
 
 
 [build-system]
