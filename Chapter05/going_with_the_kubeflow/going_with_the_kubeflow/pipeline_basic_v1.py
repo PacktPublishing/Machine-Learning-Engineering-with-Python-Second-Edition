@@ -111,4 +111,5 @@ run = kfp_client.create_run_from_pipeline_func(
     my_pipeline,
     mode=kfp.dsl.PipelineExecutionMode.V2_COMPATIBLE,
 )
+url = f'{endpoint}/#/runs/details/{run.run_id}'
 print(url)
