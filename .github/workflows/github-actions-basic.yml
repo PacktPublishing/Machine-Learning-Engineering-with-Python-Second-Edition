@@ -6,9 +6,14 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./Chapter02
+    defaults:
+      run:
+        working-directory: ${{ env.working-directory }}
     strategy:
       matrix:
-        python-version: ["3.7", "3.8", "3.9", "3.10"]
+        python-version: ["3.9", "3.10"]
 
     steps:
       - uses: actions/checkout@v3
@@ -30,4 +35,3 @@ jobs:
       - name: Test with pytest
         run: |
           pytest
-        working-directory: Chapter02
