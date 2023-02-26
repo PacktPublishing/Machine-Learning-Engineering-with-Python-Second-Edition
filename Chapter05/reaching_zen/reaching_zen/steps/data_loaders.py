@@ -117,8 +117,8 @@ def data_loader(
         dataset = load_iris(as_frame=True).frame
     elif params.dataset == SklearnDataset.breast_cancer:
         dataset = load_breast_cancer(as_frame=True).frame
-    elif params.dataset == SklearnDataset.diabetes:
-        dataset = load_diabetes(as_frame=True).frame
+    # elif params.dataset == SklearnDataset.diabetes:
+    #     dataset = load_diabetes(as_frame=True).frame
     logger.info(f"Loaded dataset {params.dataset.value}: %s", dataset.info())
     logger.info(dataset.head())
     ### YOUR CODE ENDS HERE ###
