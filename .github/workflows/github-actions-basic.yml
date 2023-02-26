@@ -7,7 +7,7 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
-      working-directory: ./Chapter02
+      working-directory: Chapter02
     defaults:
       run:
         working-directory: ${{ env.working-directory }}
