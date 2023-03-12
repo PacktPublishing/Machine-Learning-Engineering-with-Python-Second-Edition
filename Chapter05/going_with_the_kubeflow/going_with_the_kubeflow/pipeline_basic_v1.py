@@ -107,8 +107,9 @@ endpoint = 'http://localhost:8080' #as a result of port-forwarding.
 # got this from running kubectl cluster-info --context kind-mlewp (this is cluster name)
 #endpoint = 'https://127.0.0.1:50663' 
 kfp_client = Client(host=endpoint)
-run = kfp_client.create_run_from_pipeline_func(ß
+run = kfp_client.create_run_from_pipeline_func(
     my_pipeline,
     mode=kfp.dsl.PipelineExecutionMode.V2_COMPATIBLE,
-)ßßß
+)
+url = f'{endpoint}/#/runs/details/{run.run_id}'
 print(url)
