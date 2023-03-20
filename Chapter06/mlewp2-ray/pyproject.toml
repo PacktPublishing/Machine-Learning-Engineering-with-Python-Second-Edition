@@ -8,7 +8,7 @@ packages = [{include = "mlewp2_ray"}]
 
 [tool.poetry.dependencies]
 python = "^3.9"
-ray = {extras = ["tune"], version = "^2.3.0"}
+ray = {extras = ["air", "dashboard", "tune"], version = "^2.3.0"}
 pyarrow = ">=6.0.1"
 torch = ">=1.12"
 numpy = ">=1.19.5"
