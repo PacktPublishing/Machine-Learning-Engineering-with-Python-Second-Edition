@@ -17,7 +17,7 @@ prompt = PromptTemplate(
 )
 
 # user question
-question = "Where does Andrew McMahon, author of 'Machine Learning Engineering with Python' work?"
+question = "Where does Andrew McMahon, author of 'Machine Learning Engineering with Python', work?"
 
 # create prompt template > LLM chain
 llm_chain = LLMChain(
@@ -30,7 +30,7 @@ print(llm_chain.run(question))
 
 
 questions = [
-    {'question': "Where does Andrew McMahon, author of 'Machine Learning Engineering with Python' work?"},
+    {'question': "Where does Andrew McMahon, author of 'Machine Learning Engineering with Python', work?"},
     {'question': "What is MLOps?"},
     {'question': "What is ML engineering?"},
     {'question': "What's your favourite flavour of ice cream?"}
