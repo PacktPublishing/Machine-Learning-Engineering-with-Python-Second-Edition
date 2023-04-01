@@ -26,12 +26,14 @@ def plot_store_data(df: pd.DataFrame) -> None:
     fig, ax = plt.subplots(figsize=(20,10))
     df.plot(x='ds', y='y', ax=ax)
     ax.set_xlabel('Date')
-    ax.set_ylabel('Volume')
+    ax.set_ylabel('Sales')
     ax.legend(['Truth'])
     current_ytick_values = plt.gca().get_yticks()
     plt.gca().set_yticklabels(['{:,.0f}'.format(x) for x in current_ytick_values])
     plt.savefig('store_data.png')
+    
 
+        
 def train_predict(
     df: pd.DataFrame, 
     train_fraction: float, 
@@ -74,17 +76,17 @@ def plot_forecast(df_train: pd.DataFrame, df_test: pd.DataFrame, predicted: pd.D
         x='ds', 
         y='yhat', 
         ax=ax, 
-        label='Prediction', 
+        label='Prediction + 95% CI', 
         linewidth=2, 
         markersize=5, 
-        color='k'
+        color='red'
     )
     ax.fill_between(
         x=predicted['ds'], 
         y1=predicted['yhat_upper'], 
         y2=predicted['yhat_lower'], 
-        alpha=0.1, 
-        color='k'
+        alpha=0.15, 
+        color='red',
     )
     df_train.iloc[train_index-100:].plot(
         x='ds', 
@@ -99,6 +101,7 @@ def plot_forecast(df_train: pd.DataFrame, df_test: pd.DataFrame, predicted: pd.D
     plt.gca().set_yticklabels(['{:,.0f}'.format(x) for x in current_ytick_values])
     ax.set_xlabel('Date')
     ax.set_ylabel('Sales')
+    plt.tight_layout()
     plt.savefig('store_data_forecast.png')
 
 
@@ -107,29 +110,35 @@ def plot_forecast(df_train: pd.DataFrame, df_test: pd.DataFrame, predicted: pd.D
 if __name__ == "__main__":
     import os
     
-    # If data present, read it in
+    # If data present, read it in, otherwise, download it 
     file_path = 'rossman_store_data/train.csv'
     if os.path.exists(file_path):
         logging.info('Dataset found, reading into pandas dataframe.')
         df = pd.read_csv(file_path)
     else:
         logging.info('Dataset not found, downloading ...')
-        download_kaggle_dataset()    
-        
+        download_kaggle_dataset()
+        logging.info('Reading dataset into pandas dataframe.')
+        df = pd.read_csv(file_path)   
+    
+    # Transform dataset in preparation for feeding to Prophet
     df = prep_store_data(df)
     
+    # Define main parameters for modelling
     seasonality = {
         'yearly': True,
         'weekly': True,
         'daily': False
     }
-
+    
+    # Calculate the relevant dataframes
     predicted, df_train, df_test, train_index = train_predict(
         df = df,
         train_fraction = 0.8,
         seasonality=seasonality
     )
     
+    # Plot the forecast
     plot_forecast(df_train, df_test, predicted)
         
     
