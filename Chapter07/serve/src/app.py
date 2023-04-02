@@ -2,65 +2,37 @@ from fastapi import FastAPI
 from pydantic import BaseModel
 import datetime
 import pandas as pd
+import pprint
+from helpers.request import ForecastRequest, create_forecast_index
+from registry.mlflow.handler import check_mlflow_health
+    
+# # MLFLOW HANDLERS
+# def check_mlflow_health():
+#     client = MLFlowClient(tracking_uri="http://0.0.0.0:5001") 
+#     for rm in client.search_registered_models():
+#         pprint(dict(rm), indent=4)
+#     return 'OK'
+    
 
-class ForecastRequest(BaseModel):
-    store_id: str
-    begin_date: str | None = None
-    end_date: str | None = None
-    
-def create_forecast_index(begin_date: str = None, end_date: str = None):
-    # if begin_date == None:
-    #     begin_date = datetime.datetime.now()
-    # else:
-    #     begin_date = datetime.datetime.strptime(begin_date, '%Y-%m-%dT%H:%M:%SZ')
-        
-    # if end_date == None: 
-    #     end_date = begin_date + datetime.timedelta(days=7) 
-   
-    return pd.date_range(start = begin_date, end = end_date, freq = 'D')     
-    
+# KSERVE SERVICE HANDLERS
 
 app = FastAPI()
 
-@app.get("/")
-async def root():
-    return {"serviceStatus": "OK"}
+@app.get("/health/", status_code=200)
+async def healthcheck():
+    return {
+        "serviceStatus": "OK",
+        "modelRegistryHealth": check_mlflow_health()
+        }
 
 
 @app.post("/forecast/", status_code=200)
 async def parse_request(forecast_request: ForecastRequest):
     forecast_request_dict = forecast_request.dict()
-    forecast_index = create_forecast_index(begin_date=forecast_request.begin_date, end_date=forecast_request.end_date)
-    forecast_request_dict.update({'forecast_index': forecast_index})
+    forecast_index = create_forecast_index(
+        begin_date=forecast_request.begin_date, 
+        end_date=forecast_request.end_date
+        )
+    # This is as a check for now, would like to retain the index
+    forecast_request_dict.update({'forecast_index_strings': forecast_index.to_series(keep_tz=False).astype(str).tolist()})
     return forecast_request_dict
-    # return {
-    #     'forecastIndex': create_forecast_index(
-    #         begin_date = forecast_request.begin_date, 
-    #         end_date = forecast_request.end_date
-    #         ), 
-    #     forecast_request.dict()
-    #     }
-
-# @app.get("/users")
-# async def users():
-#     users = [
-#         {
-#             "name": "Mars Kule",
-#             "age": 25,
-#             "city": "Lagos, Nigeria"
-#         },
-
-#         {
-#             "name": "Mercury Lume",
-#             "age": 23,
-#             "city": "Abuja, Nigeria"
-#         },
-
-#          {
-#             "name": "Jupiter Dume",
-#             "age": 30,
-#             "city": "Kaduna, Nigeria"
-#         }
-#     ]
-
-#     return users
