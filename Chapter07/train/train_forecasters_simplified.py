@@ -197,10 +197,10 @@ if __name__ == "__main__":
         run_id = mlflow.active_run().info.run_id
         logging.info("Model trained")
         
-        mlflow.prophet.log_model(forecaster, artifact_path="prophet-model")
+        mlflow.prophet.log_model(forecaster, artifact_path="model")
         logging.info("Logged actual model")
     
-    # The default path where the MLflow autologging function stores the TensorFlow Keras model
+    # The default path where the MLflow autologging function stores the model
     artifact_path = "model"
     model_uri = "runs:/{run_id}/{artifact_path}".format(run_id=run_id, artifact_path=artifact_path)
     
