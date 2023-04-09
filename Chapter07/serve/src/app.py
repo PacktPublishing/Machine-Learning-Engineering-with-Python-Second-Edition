@@ -6,15 +6,6 @@ import pprint
 from helpers.request import ForecastRequest, create_forecast_index
 from registry.mlflow.handler import check_mlflow_health
     
-# # MLFLOW HANDLERS
-# def check_mlflow_health():
-#     client = MLFlowClient(tracking_uri="http://0.0.0.0:5001") 
-#     for rm in client.search_registered_models():
-#         pprint(dict(rm), indent=4)
-#     return 'OK'
-    
-
-# KSERVE SERVICE HANDLERS
 
 app = FastAPI()
 
@@ -22,7 +13,8 @@ app = FastAPI()
 async def healthcheck():
     return {
         "serviceStatus": "OK",
-        "modelRegistryHealth": check_mlflow_health()
+        "modelTrackingHealth": check_mlflow_health(),
+        "modelRegistryHealth": False
         }
 
 
