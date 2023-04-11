@@ -1,0 +1,20 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: kserve-virtualservice
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - kserve-gateway
+  http:
+    - match:
+        - uri:
+            prefix: "/v1/models/sklearn-iris"
+      rewrite:
+        uri: "/"
+      route:
+        - destination:
+            host: kserve-test.sklearn-iris.svc.cluster.local # Update with the correct service name for your InferenceService
+            port:
+              number: 8080 # Update with the correct port for your InferenceService
