@@ -2,7 +2,10 @@ import logging
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-
+from sklearn.metrics import (mean_absolute_error, 
+                             mean_squared_error, 
+                             mean_absolute_percentage_error, 
+                             median_absolute_error)
 import mlflow
 from mlflow.client import MlflowClient
 
@@ -23,7 +26,7 @@ def download_kaggle_dataset(
     
 def prep_store_data(df: pd.DataFrame, store_id: int = 4, store_open: int = 1) -> pd.DataFrame:
     df['Date'] = pd.to_datetime(df['Date'])
-    df.rename(columns= {'Date': 'ds', 'Sales': 'y'}, inplace=True)
+    df = df.rename(columns= {'Date': 'ds', 'Sales': 'y'})
     df_store = df[
         (df['Store'] == store_id) &\
         (df['Open'] == store_open)
@@ -170,59 +173,72 @@ if __name__ == "__main__":
     
     logging.info("Training data retrieved.")
     
-    # Transform dataset in preparation for feeding to Prophet
-    df = prep_store_data(df)
-    logging.info("Transformed data")
-    
-    with mlflow.start_run():
-        logging.info("Started MLFlow run")
-        model_name = 'prophet-retail-forecaster'
-        mlflow.autolog()
-        
-        # Define main parameters for modelling
-        seasonality = {
-            'yearly': True,
-            'weekly': True,
-            'daily': False
-        }
 
-        logging.info("Splitting data")
-        # Split the data
-        df_train, df_test = train_test_split_forecaster(df=df, train_fraction=0.75)
-        logging.info("Data split")
+    for store_id in ['3', '4', '10']:
+        with mlflow.start_run():
+            logging.info("Started MLFlow run")
+            # Transform dataset in preparation for feeding to Prophet
+
+            df_transformed = prep_store_data(df, store_id=int(store_id))
+            logging.info("Transformed data")
+
+            model_name = f"prophet-retail-forecaster-store-{store_id}"
+            mlflow.autolog()
+            
+            # Define main parameters for modelling
+            seasonality = {
+                'yearly': True,
+                'weekly': True,
+                'daily': False
+            }
+            
+            logging.info("Splitting data")
+            # Split the data
+            df_train, df_test = train_test_split_forecaster(df=df_transformed, train_fraction=0.75)
+            logging.info("Data split")
+            
+            # Train the model
+            logging.info("Training model")
+            forecaster = train_forecaster(df_train=df_train, seasonality=seasonality)
+            run_id = mlflow.active_run().info.run_id
+            logging.info("Model trained")
+            
+            mlflow.prophet.log_model(forecaster, artifact_path="model")
+            logging.info("Logged model")
+            
+            mlflow.log_params(seasonality)
+            mlflow.log_metrics(
+                {
+                    'rmse': mean_squared_error(y_true=df_test['y'], y_pred=forecaster.predict(df_test)['yhat'], squared=False),
+                    'mean_abs_perc_error': mean_absolute_percentage_error(y_true=df_test['y'], y_pred=forecaster.predict(df_test)['yhat']),
+                    'mean_abs_error': mean_absolute_error(y_true=df_test['y'], y_pred=forecaster.predict(df_test)['yhat']),
+                    'median_abs_error': median_absolute_error(y_true=df_test['y'], y_pred=forecaster.predict(df_test)['yhat'])
+                }
+            )
+    
+        # The default path where the MLflow autologging function stores the model
+        artifact_path = "model"
+        model_uri = "runs:/{run_id}/{artifact_path}".format(run_id=run_id, artifact_path=artifact_path)
         
-        # Train the model
-        logging.info("Training model")
-        forecaster = train_forecaster(df_train=df_train, seasonality=seasonality)
-        run_id = mlflow.active_run().info.run_id
-        logging.info("Model trained")
+        # Register the model
+        model_details = mlflow.register_model(model_uri=model_uri, name=model_name)
+        logging.info("Model registered")
         
-        mlflow.prophet.log_model(forecaster, artifact_path="model")
-        logging.info("Logged actual model")
-    
-    # The default path where the MLflow autologging function stores the model
-    artifact_path = "model"
-    model_uri = "runs:/{run_id}/{artifact_path}".format(run_id=run_id, artifact_path=artifact_path)
-    
-    # Register the model
-    model_details = mlflow.register_model(model_uri=model_uri, name=model_name)
-    logging.info("Model registered")
-    
-    # # Create new model version
-    # mv = client.create_model_version(
-    #     model_name, 
-    #     model_uri, 
-    #     run_id, 
-    #     description="Prophet model for item demand.") 
-    # logging.info("Model version created")
-    
-    # Transition model to production
-    client.transition_model_version_stage(
-    name=model_details.name,
-    version=model_details.version,
-    stage='production',
-    )
-    logging.info("Model transitioned to prod stage")
+        # # Create new model version
+        # mv = client.create_model_version(
+        #     model_name, 
+        #     model_uri, 
+        #     run_id, 
+        #     description="Prophet model for item demand.") 
+        # logging.info("Model version created")
+        
+        # Transition model to production
+        client.transition_model_version_stage(
+        name=model_details.name,
+        version=model_details.version,
+        stage='production',
+        )
+        logging.info("Model transitioned to prod stage")
 
 
 
