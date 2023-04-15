@@ -16,7 +16,7 @@ ipykernel = "^6.21.3"
 jupyter = "^1.0.0"
 xgboost = "^1.7.4"
 xgboost-ray = "^0.1.15"
-protobuf = "<=3.20.1"
+protobuf = "<=3.20.2"
 tqdm = "^4.65.0"
 matplotlib = "^3.7.1"
 
