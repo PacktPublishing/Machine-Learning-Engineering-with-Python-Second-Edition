@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fast-api-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: fast-api
+  template:
+    metadata:
+      labels:
+        app: fast-api
+    spec:
+      containers:
+      - name: fast-api
+        image: electricweegie/custom-kserve-endpoint:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+          - containerPort: 8000
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: fast-api-service
+spec:
+  selector:
+    app: fast-api
+  ports:
+  - protocol: "TCP" 
+    port: 8000
+    targetPort: 8000
+  type: LoadBalancer

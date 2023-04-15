@@ -1,4 +1,4 @@
-name: mlewp-chapter01
+name: mlewp-chapter07-train
 channels:
   - conda-forge
 dependencies:
@@ -20,6 +20,7 @@ dependencies:
   - pip:
       - aiohttp==3.8.4
       - aiosignal==1.3.1
+      - alembic==1.10.3
       - anyio==3.6.2
       - appdirs==1.4.4
       - appnope==0.1.3
@@ -38,6 +39,8 @@ dependencies:
       - cffi==1.15.1
       - charset-normalizer==3.1.0
       - cleo==2.0.1
+      - click==8.1.3
+      - cloudpickle==2.2.1
       - cmdstanpy==1.1.0
       - comm==0.1.3
       - contourpy==1.0.7
@@ -45,29 +48,39 @@ dependencies:
       - crashtest==0.4.1
       - cycler==0.11.0
       - cython==0.29.33
+      - databricks-cli==0.17.6
       - debugpy==1.6.6
       - decorator==5.1.1
       - defusedxml==0.7.1
       - distlib==0.3.6
+      - docker==6.0.1
       - dulwich==0.21.3
+      - entrypoints==0.4
       - ephem==4.1.4
       - executing==1.2.0
       - fastjsonschema==2.16.3
       - filelock==3.10.3
+      - flask==2.2.3
       - fonttools==4.39.2
       - fqdn==1.5.1
       - frozenlist==1.3.3
+      - gitdb==4.0.10
+      - gitpython==3.1.31
+      - gunicorn==20.1.0
       - hijri-converter==2.2.4
       - holidays==0.21.13
       - html5lib==1.1
       - httpstan==4.9.1
       - idna==3.4
+      - imbalanced-learn==0.10.1
+      - imblearn==0.0
       - importlib-metadata==6.1.0
       - installer==0.7.0
       - ipykernel==6.22.0
       - ipython==8.11.0
       - ipython-genutils==0.2.0
       - isoduration==20.11.0
+      - itsdangerous==2.1.2
       - jaraco-classes==3.2.3
       - jedi==0.18.2
       - jinja2==3.1.2
@@ -84,13 +97,17 @@ dependencies:
       - keyring==23.13.1
       - kiwisolver==1.4.4
       - korean-lunar-calendar==0.3.1
+      - llvmlite==0.39.1
       - lockfile==0.12.2
       - lunarcalendar==0.0.9
+      - mako==1.2.4
+      - markdown==3.4.3
       - markupsafe==2.1.2
       - marshmallow==3.19.0
       - matplotlib==3.7.1
       - matplotlib-inline==0.1.6
       - mistune==2.0.5
+      - mlflow==2.2.2
       - more-itertools==9.1.0
       - msgpack==1.0.5
       - multidict==6.0.4
@@ -101,7 +118,9 @@ dependencies:
       - nest-asyncio==1.5.6
       - notebook==6.5.3
       - notebook-shim==0.2.2
-      - numpy==1.24.2
+      - numba==0.56.4
+      - numpy==1.23.5
+      - oauthlib==3.2.2
       - packaging==23.0
       - pandas==1.5.3
       - pandocfilters==1.5.0
@@ -117,11 +136,14 @@ dependencies:
       - prometheus-client==0.16.0
       - prompt-toolkit==3.0.38
       - prophet==1.1.2
+      - protobuf==4.22.1
       - psutil==5.9.4
       - ptyprocess==0.7.0
       - pure-eval==0.2.2
+      - pyarrow==11.0.0
       - pycparser==2.21
       - pygments==2.14.0
+      - pyjwt==2.6.0
       - pymeeus==0.5.12
       - pyparsing==3.0.9
       - pyproject-hooks==1.0.0
@@ -132,6 +154,7 @@ dependencies:
       - pytz==2022.7.1
       - pyyaml==6.0
       - pyzmq==25.0.2
+      - querystring-parser==1.2.4
       - rapidfuzz==2.13.7
       - requests==2.28.2
       - requests-toolbelt==0.10.1
@@ -140,11 +163,17 @@ dependencies:
       - scikit-learn==1.2.2
       - scipy==1.10.1
       - send2trash==1.8.0
+      - shap==0.41.0
       - shellingham==1.5.0.post1
       - six==1.16.0
+      - slicer==0.0.7
+      - smmap==5.0.0
       - sniffio==1.3.0
       - soupsieve==2.4
+      - sqlalchemy==2.0.9
+      - sqlparse==0.4.3
       - stack-data==0.6.2
+      - tabulate==0.9.0
       - terminado==0.17.1
       - text-unidecode==1.3
       - threadpoolctl==3.1.0
@@ -155,6 +184,7 @@ dependencies:
       - tqdm==4.65.0
       - traitlets==5.9.0
       - trove-classifiers==2023.3.9
+      - typing-extensions==4.5.0
       - uri-template==1.2.0
       - urllib3==1.26.15
       - virtualenv==20.21.0
@@ -163,7 +193,8 @@ dependencies:
       - webcolors==1.12
       - webencodings==0.5.1
       - websocket-client==1.5.1
+      - werkzeug==2.2.3
       - xattr==0.10.1
       - yarl==1.8.2
       - zipp==3.15.0
-prefix: /opt/homebrew/Caskroom/miniforge/base/envs/mlewp-chapter01
+prefix: /opt/homebrew/Caskroom/miniforge/base/envs/mlewp-chapter07-train

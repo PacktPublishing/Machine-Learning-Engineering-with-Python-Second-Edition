@@ -2,6 +2,9 @@ import logging
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
+
+import mlflow
+
 plt.rcParams.update({'font.size': 22})
 
 from prophet import Prophet
@@ -21,18 +24,17 @@ def prep_store_data(df: pd.DataFrame, store_id: int = 4, store_open: int = 1) ->
     ].reset_index(drop=True)
     return df_store.sort_values('ds', ascending=True)   
     
-def plot_store_data(df: pd.DataFrame) -> None:
-    plt.rcParams.update({'font.size': 22})
-    fig, ax = plt.subplots(figsize=(20,10))
-    df.plot(x='ds', y='y', ax=ax)
-    ax.set_xlabel('Date')
-    ax.set_ylabel('Sales')
-    ax.legend(['Truth'])
-    current_ytick_values = plt.gca().get_yticks()
-    plt.gca().set_yticklabels(['{:,.0f}'.format(x) for x in current_ytick_values])
-    plt.savefig('store_data.png')
+# def plot_store_data(df: pd.DataFrame) -> None:
+#     plt.rcParams.update({'font.size': 22})
+#     fig, ax = plt.subplots(figsize=(20,10))
+#     df.plot(x='ds', y='y', ax=ax)
+#     ax.set_xlabel('Date')
+#     ax.set_ylabel('Sales')
+#     ax.legend(['Truth'])
+#     current_ytick_values = plt.gca().get_yticks()
+#     plt.gca().set_yticklabels(['{:,.0f}'.format(x) for x in current_ytick_values])
+#     plt.savefig('store_data.png')
     
-
         
 def train_predict(
     df: pd.DataFrame, 
@@ -59,55 +61,60 @@ def train_predict(
     return predicted, df_train, df_test, train_index
 
 
-def plot_forecast(df_train: pd.DataFrame, df_test: pd.DataFrame, predicted: pd.DataFrame) -> None:
-    fig, ax = plt.subplots(figsize=(20,10))
-    df_test.plot(
-        x='ds', 
-        y='y', 
-        ax=ax, 
-        label='Truth', 
-        linewidth=1, 
-        markersize=5, 
-        color='tab:blue',
-        alpha=0.9, 
-        marker='o'
-    )
-    predicted.plot(
-        x='ds', 
-        y='yhat', 
-        ax=ax, 
-        label='Prediction + 95% CI', 
-        linewidth=2, 
-        markersize=5, 
-        color='red'
-    )
-    ax.fill_between(
-        x=predicted['ds'], 
-        y1=predicted['yhat_upper'], 
-        y2=predicted['yhat_lower'], 
-        alpha=0.15, 
-        color='red',
-    )
-    df_train.iloc[train_index-100:].plot(
-        x='ds', 
-        y='y', 
-        ax=ax, 
-        color='tab:blue', 
-        label='_nolegend_', 
-        alpha=0.5, 
-        marker='o'
-    )
-    current_ytick_values = plt.gca().get_yticks()
-    plt.gca().set_yticklabels(['{:,.0f}'.format(x) for x in current_ytick_values])
-    ax.set_xlabel('Date')
-    ax.set_ylabel('Sales')
-    plt.tight_layout()
-    plt.savefig('store_data_forecast.png')
+# def plot_forecast(df_train: pd.DataFrame, df_test: pd.DataFrame, predicted: pd.DataFrame) -> None:
+#     fig, ax = plt.subplots(figsize=(20,10))
+#     df_test.plot(
+#         x='ds', 
+#         y='y', 
+#         ax=ax, 
+#         label='Truth', 
+#         linewidth=1, 
+#         markersize=5, 
+#         color='tab:blue',
+#         alpha=0.9, 
+#         marker='o'
+#     )
+#     predicted.plot(
+#         x='ds', 
+#         y='yhat', 
+#         ax=ax, 
+#         label='Prediction + 95% CI', 
+#         linewidth=2, 
+#         markersize=5, 
+#         color='red'
+#     )
+#     ax.fill_between(
+#         x=predicted['ds'], 
+#         y1=predicted['yhat_upper'], 
+#         y2=predicted['yhat_lower'], 
+#         alpha=0.15, 
+#         color='red',
+#     )
+#     df_train.iloc[train_index-100:].plot(
+#         x='ds', 
+#         y='y', 
+#         ax=ax, 
+#         color='tab:blue', 
+#         label='_nolegend_', 
+#         alpha=0.5, 
+#         marker='o'
+#     )
+#     current_ytick_values = plt.gca().get_yticks()
+#     plt.gca().set_yticklabels(['{:,.0f}'.format(x) for x in current_ytick_values])
+#     ax.set_xlabel('Date')
+#     ax.set_ylabel('Sales')
+#     plt.tight_layout()
+#     plt.savefig('store_data_forecast.png')
 
 
 
 
 if __name__ == "__main__":
+    
+    mlflow.set_tracking_uri("http://0.0.0.0:5001")
+    mlflow.set_experiment("prophet_models_05042023")
+    mlflow.autolog()
+    
     import os
     
     # If data present, read it in, otherwise, download it 
@@ -139,7 +146,7 @@ if __name__ == "__main__":
     )
     
     # Plot the forecast
-    plot_forecast(df_train, df_test, predicted)
+    #plot_forecast(df_train, df_test, predicted)
         
     
 
