@@ -11,10 +11,7 @@ mlflow.set_tracking_uri(tracking_uri)
 client = MlflowClient(tracking_uri=tracking_uri) 
 
 model_name = 'prophet-retail-forecaster'
-
-
 latest_version_number = client.get_latest_versions(name="prophet-retail-forecaster")[0].version
-
 model_production_uri = client.get_model_version_download_uri(name=model_name, version=latest_version_number)
 
 
@@ -31,3 +28,16 @@ logging.info("worked.")
 
 logging.info("trying predict")
 model.predict()
+
+
+def get_production_model(store_id:int):
+    model_name = f"prophet-retail-forecaster-store-{store_id}"
+    model = mlflow.pyfunc.load_model(model_uri=f"models:/{model_name}/production")
+    return model
+    
+
+for store_id in ['3', '4', '10']:
+    # model_name = f"prophet-retail-forecaster-store-{store_id}"
+    # model = mlflow.pyfunc.load_model(model_uri=f"models:/{model_name}/production")
+    
+    
