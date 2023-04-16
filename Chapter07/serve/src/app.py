@@ -5,7 +5,7 @@ import pandas as pd
 import pprint
 from helpers.request import ForecastRequest, create_forecast_index
 from registry.mlflow.handler import check_mlflow_health
-    
+from typing import List
 
 app = FastAPI()
 
@@ -28,3 +28,13 @@ async def parse_request(forecast_request: ForecastRequest):
     # This is as a check for now, would like to retain the index
     forecast_request_dict.update({'forecast_index_strings': forecast_index.to_series(keep_tz=False).astype(str).tolist()})
     return forecast_request_dict
+
+@app.post("/forecast2/", status_code=200)
+async def parse_request2(forecast_request: List[ForecastRequest]):
+    models = []
+    store_ids = []
+    for item in forecast_request:
+        store_ids.append(item.store_id)
+    return store_ids
+
+

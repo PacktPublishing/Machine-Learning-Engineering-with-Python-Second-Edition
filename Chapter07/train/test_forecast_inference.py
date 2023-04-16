@@ -37,7 +37,7 @@ def get_production_model(store_id:int):
     
 
 for store_id in ['3', '4', '10']:
-    # model_name = f"prophet-retail-forecaster-store-{store_id}"
-    # model = mlflow.pyfunc.load_model(model_uri=f"models:/{model_name}/production")
+    model_name = f"prophet-retail-forecaster-store-{store_id}"
+    model = mlflow.pyfunc.load_model(model_uri=f"models:/{model_name}/production")
     
     
