@@ -31,7 +31,6 @@ async def startup():
     await get_service_handlers()
     logging.info("Updated global service handlers")
 
-
 async def get_service_handlers():
     mlflow_handler = MLFlowHandler()
     global handlers
@@ -50,7 +49,7 @@ async def healthcheck():
         }
 
 @cache(expire=30)
-async def get_and_update_models(store_ids: list):
+async def get_models(store_ids: list):
     global handlers
     global models
     models = []
@@ -59,11 +58,11 @@ async def get_and_update_models(store_ids: list):
         models.append(model)
     return models
 
-@cache(expire=30)
-async def get_and_update_model(store_id: str):
+#@cache(expire=30)
+async def get_model(store_id: str):
     global handlers
     global models
-    model_name = MODEL_BASE_NAME + f"{}".format(store_id)
+    model_name = MODEL_BASE_NAME + f"{store_id}"
     if model_name not in models:
         models[model_name] = handlers['mlflow'].get_production_model(store_id=store_id)
     # logging.info("Got handlers in get_model")
@@ -89,31 +88,12 @@ async def parse_request2(forecast_request: List[ForecastRequest]):
     2. Forecast with it
     3. Cache it
     '''
-    
     forecasts = []
     for item in forecast_request:
-        #store_ids.append(item.store_id)
-        model_dict = await get_model(item.store_id)
-        #logging.info("model dict {}".format(type(model_dict)))
-        #logging.info("model dict keys {}".format(list(model_dict.keys)))
+        model = await get_model(item.store_id)
         forecast_input = create_forecast_index(
             begin_date=item.begin_date, 
             end_date=item.end_date
             )
-        forecasts.append(model_dict['forecast_model'].predict(forecast_input))
+        forecasts.append(model.predict(forecast_input)[['ds', 'yhat']])
     return forecasts    
-    # # models_dict = await get_models(store_ids=store_ids)
-    # # models = models_dict['models']
-    # return "".join([str(x) for x in models])
-
-
-@app.post("/forecast/", status_code=200)
-async def parse_request(forecast_request: ForecastRequest):
-    forecast_request_dict = forecast_request.dict()
-    forecast_index = create_forecast_index(
-        begin_date=forecast_request.begin_date, 
-        end_date=forecast_request.end_date
-        )
-    # This is as a check for now, would like to retain the index
-    forecast_request_dict.update({'forecast_index_strings': forecast_index.to_series(keep_tz=False).astype(str).tolist()})
-    return forecast_request_dict
