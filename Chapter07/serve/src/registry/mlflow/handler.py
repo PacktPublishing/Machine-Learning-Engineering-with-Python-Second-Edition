@@ -5,7 +5,9 @@ from pprint import pprint
 
 class MLFlowHandler:
     def __init__(self) -> None:
-        self.client = MlflowClient(tracking_uri="http://0.0.0.0:5001") 
+        tracking_uri = "http://0.0.0.0:5001"
+        self.client = MlflowClient(tracking_uri=tracking_uri)
+        mlflow.set_tracking_uri(tracking_uri)
     
     def check_mlflow_health(self) -> None:
         try:
@@ -16,7 +18,7 @@ class MLFlowHandler:
         except:
             return 'Error calling MLFlow'
         
-    def get_production_model(self, store_id: int) -> PyFuncModel:
+    def get_production_model(self, store_id: str) -> PyFuncModel:
         model_name = f"prophet-retail-forecaster-store-{store_id}"
         model = mlflow.pyfunc.load_model(model_uri=f"models:/{model_name}/production")
         return model

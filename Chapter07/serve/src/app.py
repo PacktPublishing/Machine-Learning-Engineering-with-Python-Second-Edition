@@ -81,7 +81,7 @@ async def test_cache():
     return {'type': str(handlers['mlflow'].get_production_model(store_id='4'))}
     
 
-@app.post("/forecast2/", status_code=200)
+@app.post("/forecast/", status_code=200)
 async def parse_request2(forecast_request: List[ForecastRequest]):
     '''
     1. Retrieve each model from model registry
@@ -95,5 +95,8 @@ async def parse_request2(forecast_request: List[ForecastRequest]):
             begin_date=item.begin_date, 
             end_date=item.end_date
             )
-        forecasts.append(model.predict(forecast_input)[['ds', 'yhat']])
+        forecast_result = {}
+        forecast_result['request'] = item.dict()
+        forecast_result['forecast'] = model.predict(forecast_input)[['ds', 'yhat']].to_dict('records')
+        forecasts.append(forecast_result)
     return forecasts    
