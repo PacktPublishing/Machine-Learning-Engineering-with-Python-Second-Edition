@@ -17,11 +17,11 @@ import logging
 log_format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s" 
 logging.basicConfig(format = log_format, level = logging.INFO)
 
-app = FastAPI()
-
 handlers = {}
 models = {}
 MODEL_BASE_NAME = f"prophet-retail-forecaster-store-"
+
+app = FastAPI()
 
 # Start the in memory cache
 @app.on_event("startup")
@@ -36,16 +36,15 @@ async def get_service_handlers():
     global handlers
     handlers['mlflow'] = mlflow_handler
     logging.info("Retreving mlflow handler {}".format(mlflow_handler))
-    return handlers #{'mlflow': mlflow_handler}
+    return handlers
     
 @app.get("/health/", status_code=200)
 async def healthcheck():
-    handlers = await get_service_handlers()
+    global handlers
     logging.info("Got handlers in healthcheck.")
     return {
         "serviceStatus": "OK",
-        "modelTrackingHealth": handlers['mlflow'].check_mlflow_health(),
-        "modelRegistryHealth": False
+        "modelTrackingHealth": handlers['mlflow'].check_mlflow_health()
         }
 
 @cache(expire=30)
@@ -58,35 +57,32 @@ async def get_models(store_ids: list):
         models.append(model)
     return models
 
-#@cache(expire=30)
 async def get_model(store_id: str):
     global handlers
     global models
     model_name = MODEL_BASE_NAME + f"{store_id}"
     if model_name not in models:
         models[model_name] = handlers['mlflow'].get_production_model(store_id=store_id)
-    # logging.info("Got handlers in get_model")
-    # logging.info("handlers type = {}".format(type(handlers)))
-    # logging.info("handler type = {}".format(type(handlers['mlflow'])))
-    # logging.info("handlers dict {}".format(handlers))
-    #model = handlers['mlflow'].get_production_model(store_id=store_id)
-    #logging.info("model type = {}".format(type(model)))
     return models[model_name]
 
 @app.get("/testcache", status_code=200)
 async def test_cache():
-    #handlers = await get_service_handlers()
     global handlers
     logging.info(pprint.pprint(str(handlers['mlflow'])))
     return {'type': str(handlers['mlflow'].get_production_model(store_id='4'))}
     
 
 @app.post("/forecast/", status_code=200)
-async def parse_request2(forecast_request: List[ForecastRequest]):
+async def return_forecast(forecast_request: List[ForecastRequest]):
     '''
-    1. Retrieve each model from model registry
-    2. Forecast with it
-    3. Cache it
+    Main route in the app for returning the forecast, steps are:
+    
+    1. iterate over forecast elements
+    2. get model for each store, forecast request
+    3. prepare forecast input time index
+    4. perform forecast
+    5. append to return object
+    6. return
     '''
     forecasts = []
     for item in forecast_request:
@@ -97,6 +93,9 @@ async def parse_request2(forecast_request: List[ForecastRequest]):
             )
         forecast_result = {}
         forecast_result['request'] = item.dict()
-        forecast_result['forecast'] = model.predict(forecast_input)[['ds', 'yhat']].to_dict('records')
+        model_prediction = model.predict(forecast_input)[['ds', 'yhat']]\
+            .rename(columns={'ds': 'timestamp', 'yhat': 'value'})
+        model_prediction['value'] = model_prediction['value'].astype(int)
+        forecast_result['forecast'] = model_prediction.to_dict('records')
         forecasts.append(forecast_result)
     return forecasts    
