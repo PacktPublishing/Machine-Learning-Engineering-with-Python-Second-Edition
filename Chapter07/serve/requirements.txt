@@ -210,7 +210,7 @@ sqlalchemy2-stubs==0.0.2a33
 sqlmodel==0.0.8
 sqlparse==0.4.3
 stack-data==0.6.2
-starlette==0.22.0
+starlette==0.25.0
 tabulate==0.9.0
 terminado==0.17.1
 threadpoolctl==3.1.0
