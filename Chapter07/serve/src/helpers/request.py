@@ -21,4 +21,8 @@ def create_forecast_index(begin_date: str = None, end_date: str = None):
     else:
         end_date = datetime.datetime.strptime(end_date, '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=None)
 
-    return pd.date_range(start = begin_date, end = end_date, freq = 'D')     
+    forecast_index = pd.date_range(start = begin_date, end = end_date, freq = 'D')
+    # Format for Prophet to consume
+    return pd.DataFrame({'ds': forecast_index})
+
+     
