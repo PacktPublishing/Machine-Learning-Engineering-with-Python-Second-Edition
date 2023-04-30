@@ -4,7 +4,7 @@ import datetime
 import pandas as pd
 import pprint
 from helpers.request import ForecastRequest, create_forecast_index
-from registry.mlflow.handler import MLFlowHandler, check_mlflow_health
+from registry.mlflow.handler import MLFlowHandler
 from typing import List
 
 # Caching
