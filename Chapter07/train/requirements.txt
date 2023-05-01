@@ -87,7 +87,7 @@ marshmallow==3.19.0
 matplotlib==3.7.1
 matplotlib-inline==0.1.6
 mistune==2.0.5
-mlflow==2.2.2
+mlflow==2.3.1
 more-itertools==9.1.0
 msgpack==1.0.5
 multidict==6.0.4
