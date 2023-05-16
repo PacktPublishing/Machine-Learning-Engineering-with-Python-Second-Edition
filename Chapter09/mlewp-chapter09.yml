@@ -60,20 +60,26 @@ dependencies:
       - argon2-cffi==21.3.0
       - argon2-cffi-bindings==21.2.0
       - arrow==1.2.3
+      - asn1crypto==1.5.1
       - async-timeout==4.0.2
       - attrs==22.2.0
+      - backoff==2.2.1
       - beautifulsoup4==4.12.0
       - bleach==6.0.0
+      - blobfile==2.0.2
       - build==0.10.0
       - cachecontrol==0.12.11
       - certifi==2022.12.7
       - cffi==1.15.1
-      - charset-normalizer==3.1.0
+      - charset-normalizer==2.1.1
       - cleo==2.0.1
+      - click==8.1.3
       - cmdstanpy==1.1.0
+      - colorama==0.4.6
       - contourpy==1.0.7
       - convertdate==2.4.0
       - crashtest==0.4.1
+      - cryptography==40.0.2
       - cycler==0.11.0
       - cython==0.29.33
       - datasets==2.12.0
@@ -83,9 +89,11 @@ dependencies:
       - distlib==0.3.6
       - dulwich==0.21.3
       - ephem==4.1.4
+      - evals==1.0.3.post1
       - evaluate==0.4.0
       - fastjsonschema==2.16.3
       - filelock==3.10.3
+      - fire==0.5.0
       - fonttools==4.39.2
       - fqdn==1.5.1
       - frozenlist==1.3.3
@@ -118,25 +126,34 @@ dependencies:
       - keyring==23.13.1
       - kiwisolver==1.4.4
       - korean-lunar-calendar==0.3.1
+      - langdetect==1.0.9
       - lockfile==0.12.2
       - lunarcalendar==0.0.9
+      - lxml==4.9.2
+      - lz4==4.3.2
       - markupsafe==2.1.2
       - marshmallow==3.19.0
       - matplotlib==3.7.1
       - mistune==2.0.5
+      - mock==5.0.2
       - more-itertools==9.1.0
       - mpmath==1.3.0
       - msgpack==1.0.5
       - multidict==6.0.4
       - multiprocess==0.70.14
+      - mypy==1.3.0
+      - mypy-extensions==1.0.0
       - nbclassic==0.5.3
       - nbclient==0.7.2
       - nbconvert==7.2.10
       - nbformat==5.8.0
       - networkx==3.1
+      - nltk==3.8.1
       - notebook==6.5.3
       - notebook-shim==0.2.2
       - numpy==1.24.2
+      - openai==0.27.6
+      - oscrypto==1.3.0
       - packaging==23.0
       - pandas==1.5.3
       - pandocfilters==1.5.0
@@ -146,13 +163,18 @@ dependencies:
       - poetry==1.4.1
       - poetry-core==1.5.2
       - poetry-plugin-export==1.3.0
+      - portalocker==2.7.0
       - prometheus-client==0.16.0
       - prophet==1.1.2
       - psutil==5.9.4
-      - pyarrow==12.0.0
+      - pyarrow==10.0.1
       - pycparser==2.21
+      - pycryptodomex==3.17
+      - pydantic==1.10.7
       - pygments==2.14.0
+      - pyjwt==2.7.0
       - pymeeus==0.5.12
+      - pyopenssl==23.1.1
       - pyparsing==3.0.9
       - pyproject-hooks==1.0.0
       - pyrsistent==0.19.3
@@ -160,6 +182,7 @@ dependencies:
       - python-slugify==8.0.1
       - pytz==2022.7.1
       - pyyaml==6.0
+      - pyzstd==0.15.7
       - rapidfuzz==2.13.7
       - regex==2023.5.5
       - requests==2.28.2
@@ -167,16 +190,23 @@ dependencies:
       - responses==0.18.0
       - rfc3339-validator==0.1.4
       - rfc3986-validator==0.1.1
+      - sacrebleu==2.3.1
       - scikit-learn==1.2.2
       - scipy==1.10.1
       - send2trash==1.8.0
+      - sentencepiece==0.1.99
+      - setuptools-scm==7.1.0
       - shellingham==1.5.0.post1
       - sniffio==1.3.0
+      - snowflake-connector-python==3.0.3
       - soupsieve==2.4
       - sympy==1.11.1
+      - tabulate==0.9.0
+      - termcolor==2.3.0
       - terminado==0.17.1
       - text-unidecode==1.3
       - threadpoolctl==3.1.0
+      - tiktoken==0.4.0
       - tinycss2==1.2.1
       - tokenizers==0.13.3
       - tomli==2.0.1
