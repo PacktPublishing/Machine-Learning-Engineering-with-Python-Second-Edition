@@ -1,0 +1,134 @@
+aiohttp==3.8.4
+aiosignal==1.3.1
+alembic==1.11.1
+anyio==3.6.2
+apache-airflow==2.6.1
+apache-airflow-providers-apache-spark==4.0.1
+apache-airflow-providers-common-sql==1.4.0
+apache-airflow-providers-ftp==3.3.1
+apache-airflow-providers-http==4.3.0
+apache-airflow-providers-imap==3.1.1
+apache-airflow-providers-sqlite==3.3.2
+apispec==5.2.2
+argcomplete==3.0.8
+asgiref==3.6.0
+async-timeout==4.0.2
+attrs==23.1.0
+Babel==2.12.1
+blinker==1.6.2
+boto3==1.26.138
+botocore==1.29.138
+cachelib==0.9.0
+cattrs==22.2.0
+certifi==2023.5.7
+cffi==1.15.1
+charset-normalizer @ file:///home/conda/feedstock_root/build_artifacts/charset-normalizer_1678108872112/work
+click==8.1.3
+clickclick==20.10.2
+colorama==0.4.6
+colorlog==4.8.0
+ConfigUpdater==3.1.1
+connexion==2.14.2
+cron-descriptor==1.4.0
+croniter==1.3.14
+cryptography==40.0.2
+Deprecated==1.2.13
+dill==0.3.6
+dnspython==2.3.0
+docutils==0.20.1
+email-validator==1.3.1
+exceptiongroup==1.1.1
+Flask==2.2.5
+Flask-AppBuilder==4.3.0
+Flask-Babel==2.0.0
+Flask-Caching==2.0.2
+Flask-JWT-Extended==4.4.4
+Flask-Limiter==3.3.1
+Flask-Login==0.6.2
+Flask-Session==0.5.0
+Flask-SQLAlchemy==2.5.1
+Flask-WTF==1.1.1
+frozenlist==1.3.3
+graphviz==0.20.1
+gunicorn==20.1.0
+h11==0.14.0
+httpcore==0.17.1
+httpx==0.24.1
+idna @ file:///home/conda/feedstock_root/build_artifacts/idna_1663625384323/work
+importlib-resources==5.12.0
+inflection==0.5.1
+itsdangerous==2.1.2
+Jinja2==3.1.2
+jmespath==1.0.1
+joblib @ file:///home/conda/feedstock_root/build_artifacts/joblib_1663332044897/work
+jsonschema==4.17.3
+lazy-object-proxy==1.9.0
+limits==3.5.0
+linkify-it-py==2.0.2
+lockfile==0.12.2
+Mako==1.2.4
+Markdown==3.4.3
+markdown-it-py==2.2.0
+MarkupSafe==2.1.2
+marshmallow==3.19.0
+marshmallow-enum==1.5.1
+marshmallow-oneofschema==3.0.1
+marshmallow-sqlalchemy==0.26.1
+mdit-py-plugins==0.3.5
+mdurl==0.1.2
+multidict==6.0.4
+numpy @ file:///Users/runner/miniforge3/conda-bld/numpy_1682210346059/work
+openai==0.27.7
+ordered-set==4.1.0
+packaging @ file:///home/conda/feedstock_root/build_artifacts/packaging_1681337016113/work
+pathspec==0.9.0
+pendulum==2.1.2
+platformdirs @ file:///home/conda/feedstock_root/build_artifacts/platformdirs_1683850015520/work
+pluggy==1.0.0
+pooch @ file:///home/conda/feedstock_root/build_artifacts/pooch_1679580333621/work
+prison==0.2.1
+psutil==5.9.5
+py4j==0.10.9.7
+pycparser==2.21
+pydantic==1.10.7
+Pygments==2.15.1
+PyJWT==2.7.0
+pyrsistent==0.19.3
+PySocks @ file:///home/conda/feedstock_root/build_artifacts/pysocks_1661604839144/work
+pyspark==3.4.0
+python-daemon==3.0.1
+python-dateutil==2.8.2
+python-nvd3==0.15.0
+python-slugify==8.0.1
+pytz==2023.3
+pytzdata==2020.1
+PyYAML==6.0
+requests==2.30.0
+requests-toolbelt==1.0.0
+rfc3339-validator==0.1.4
+rich==13.3.5
+rich_argparse==1.1.0
+s3transfer==0.6.1
+scikit-learn @ file:///Users/runner/miniforge3/conda-bld/scikit-learn_1679676140209/work
+scipy @ file:///Users/runner/miniforge3/conda-bld/scipy-split_1683900561684/work/base/dist/scipy-1.10.1-cp310-cp310-macosx_11_0_arm64.whl#sha256=a3c0cd42a1c134ecde8ed82f601d7bcc58f1bd7fe5f748f9322af7396f50d220
+setproctitle==1.3.2
+six==1.16.0
+sniffio==1.3.0
+SQLAlchemy==1.4.48
+SQLAlchemy-JSONField==1.0.1.post0
+SQLAlchemy-Utils==0.41.1
+sqlparse==0.4.4
+tabulate==0.9.0
+tenacity==8.2.2
+termcolor==2.3.0
+text-unidecode==1.3
+threadpoolctl @ file:///home/conda/feedstock_root/build_artifacts/threadpoolctl_1643647933166/work
+tqdm==4.65.0
+typing_extensions @ file:///home/conda/feedstock_root/build_artifacts/typing_extensions_1678559861143/work
+uc-micro-py==1.0.2
+unicodecsv==0.14.1
+urllib3==1.26.15
+Werkzeug==2.2.3
+wrapt==1.15.0
+WTForms==3.0.1
+yarl==1.9.2
