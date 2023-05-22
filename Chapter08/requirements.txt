@@ -103,7 +103,7 @@ python-slugify==8.0.1
 pytz==2023.3
 pytzdata==2020.1
 PyYAML==6.0
-requests==2.30.0
+requests==2.31.0
 requests-toolbelt==1.0.0
 rfc3339-validator==0.1.4
 rich==13.3.5
