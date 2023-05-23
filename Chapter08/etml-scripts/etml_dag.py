@@ -20,8 +20,14 @@ from airflow import DAG
 from airflow.decorators import task
 from airflow.operators.python import PythonOperator
 
-from extract import extract_cluster_save_data
+from utils.summarize import LLMSummarizer
+from utils.cluster import Clusterer
 
+import logging
+logging.basicConfig(level=logging.INFO)
+
+
+# Bucket name could be read in as an environment variable.
 bucket_name = "etml-data"
 
 date = datetime.datetime.now().strftime("%Y%m%d")
@@ -34,14 +40,22 @@ with DAG(
     schedule_interval="@daily",
     catchup=False,
 ) as dag:
-    
-    extract_cluster_save_task = PythonOperator(
+
+    logging.info("DAG started ...")
+    logging.info("Extracting and clustering data ...")
+    extract_cluster_load_task = PythonOperator(
         task_id="extract_cluster_save",
-        python_callable=extract_cluster_save_data,
-        op_kwargs={'bucket_name': bucket_name, 'file_name': file_name},
+        python_callable=Clusterer(bucket_name, file_name).cluster_and_label,
     )
     
+    logging.info("Extracting and summarizing data ...")
+    extract_summarise_load_task = PythonOperator(
+        task_id="extract_summarise",
+        python_callable=LLMSummarizer(bucket_name, file_name).summarize
+    )
     
+    extract_cluster_load_task >> extract_summarise_load_task 
+
     
     
     
