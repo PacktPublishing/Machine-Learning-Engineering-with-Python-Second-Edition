@@ -4,21 +4,17 @@ This script executes the DBSCAN clustering algorithm on the simulated taxi ride 
 It 
 '''
 
-from simulate_data import simulate_ride_data
+#from simulate_data import simulate_ride_data
 import pandas as pd
 import numpy as np
-import logging
 import datetime
-import boto3
-
-from sklearn.preprocessing import StandardScaler
-from sklearn.cluster import DBSCAN
-
-from utils.extractor import Extractor
-
-
+import logging
 logging.basicConfig(level=logging.INFO)
 
+import boto3
+from sklearn.preprocessing import StandardScaler
+from sklearn.cluster import DBSCAN
+from utils.extractor import Extractor
 
 model_params = {
     'eps': 0.3,
@@ -35,11 +31,12 @@ class Clusterer:
         self.bucket_name = bucket_name
         self.file_name = file_name
         
-    def cluster_and_label(self) -> pd.DataFrame:
+    def cluster_and_label(self, features: list) -> None:
         extractor = Extractor(self.bucket_name, self.file_name)
         df = extractor.extract_data()
-        df = StandardScaler().fit_transform(df)
-        db = DBSCAN(**self.model_params).fit(df)
+        df_features = df[features]
+        df_features = StandardScaler().fit_transform(df_features)
+        db = DBSCAN(**self.model_params).fit(df_features)
 
         # Find labels from the clustering
         core_samples_mask = np.zeros_like(db.labels_, dtype=bool)
@@ -55,7 +52,6 @@ class Clusterer:
             Bucket=self.bucket_name, 
             Key=f"clustered_data_{date}.json"
         )
-        return df
         
 
 # #==========================================

@@ -10,14 +10,10 @@ This DAG shows how to build your own Extract -> Transform -> Machine Learn -> Lo
 '''
 from __future__ import annotations
 
-import json
-from textwrap import dedent
 import datetime
-
 import pendulum
 
 from airflow import DAG
-from airflow.decorators import task
 from airflow.operators.python import PythonOperator
 
 from utils.summarize import LLMSummarizer
@@ -26,13 +22,10 @@ from utils.cluster import Clusterer
 import logging
 logging.basicConfig(level=logging.INFO)
 
-
 # Bucket name could be read in as an environment variable.
-bucket_name = "etml-data"
-
+bucket_name = "mlewp-ch9-etml-data"
 date = datetime.datetime.now().strftime("%Y%m%d")
 file_name = f"taxi-rides-{date}.json"
-
 
 with DAG(
     dag_id="etml_dag",
@@ -46,15 +39,16 @@ with DAG(
     extract_cluster_load_task = PythonOperator(
         task_id="extract_cluster_save",
         python_callable=Clusterer(bucket_name, file_name).cluster_and_label,
+        op_kwargs={"features": ["ride_dist", "ride_time"]}
     )
     
     logging.info("Extracting and summarizing data ...")
-    extract_summarise_load_task = PythonOperator(
-        task_id="extract_summarise",
+    extract_summarize_load_task = PythonOperator(
+        task_id="extract_summarize",
         python_callable=LLMSummarizer(bucket_name, file_name).summarize
     )
     
-    extract_cluster_load_task >> extract_summarise_load_task 
+    extract_cluster_load_task >> extract_summarize_load_task 
 
     
     
