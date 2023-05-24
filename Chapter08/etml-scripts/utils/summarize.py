@@ -41,7 +41,8 @@ class LLMSummarizer:
         df['summary'] = ''
         
         df['prompt'] = df.apply(lambda x: self.format_prompt(x['news'], x['weather'], x['traffic']), axis=1)
-        df[df['label'] == -1]['summary'] = df[df['label'] == -1]['prompt'].apply(lambda x: self.generate_summary(x))
+        df.loc[df['label']==-1, 'summary'] = df.loc[df['label']==-1, 'prompt'].apply(lambda x: self.generate_summary(x))
+        #df[df['label'] == -1]['summary'] = df[df['label'] == -1]['prompt'].apply(lambda x: self.generate_summary(x))
         # for i in range(len(df)):
         #     if df.loc[i]['label'] == -1:
         #         prompt = dedent(f"""
@@ -73,20 +74,17 @@ class LLMSummarizer:
                         ''')
         return prompt
     def generate_summary(self, prompt: str) -> str:
-        response = openai.ChatCompletion.create(
-            model = "gpt-3.5-turbo",
-            temperature = 0.3,
-            messages = [{"role": "user", "content": prompt}]
-        )
-        return response.choices[0].message['content']
-        # response = openai.Completion.create(
-        #     engine="davinci",
-        #     prompt=prompt,
-        #     temperature=0.3,
-        #     max_tokens=60,
-        #     top_p=1.0,
-        #     frequency_penalty=0.0,
-        #     presence_penalty=0.0,
-        #     stop=["\n"]
-        # )
-        #return response['choices'][0]['text']
+        # Try chatgpt api and fall back if not working
+        try:
+            response = openai.ChatCompletion.create(
+                model = "gpt-3.5-turbo",
+                temperature = 0.3,
+                messages = [{"role": "user", "content": prompt}]
+            )
+            return response.choices[0].message['content']
+        except:
+            response = openai.Completion.create(
+                model="text-davinci-003",
+                prompt = prompt
+            )
+            return response['choices'][0]['text']
