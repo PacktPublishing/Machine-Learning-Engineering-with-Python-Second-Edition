@@ -48,7 +48,7 @@ class Clusterer:
         
         date = datetime.datetime.now().strftime("%Y%m%d")
         boto3.client('s3').put_object(
-            Body=df.to_json(), 
+            Body=df.to_json(orient='records'), 
             Bucket=self.bucket_name, 
             Key=f"clustered_data_{date}.json"
         )

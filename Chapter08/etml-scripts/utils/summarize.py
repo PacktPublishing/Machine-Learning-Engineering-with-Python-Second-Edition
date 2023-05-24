@@ -26,6 +26,9 @@ from textwrap import dedent
 import datetime
 import openai
 import boto3
+import os
+
+openai.api_key = os.environ['OPENAI_API_KEY']
 
 class LLMSummarizer:
     def __init__(self, bucket_name: str, file_name: str) -> None:
@@ -36,30 +39,54 @@ class LLMSummarizer:
         extractor = Extractor(self.bucket_name, self.file_name)
         df = extractor.extract_data()
         df['summary'] = ''
-        for i in range(len(df)):
-            if df['label'][i] == -1:
-                prompt = dedent(f"""
-                The following information describes conditions relevant to taxi journeys through a single day in Glasgow, Scotland.
+        
+        df['prompt'] = df.apply(lambda x: self.format_prompt(x['news'], x['weather'], x['traffic']), axis=1)
+        df[df['label'] == -1]['summary'] = df[df['label'] == -1]['prompt'].apply(lambda x: self.generate_summary(x))
+        # for i in range(len(df)):
+        #     if df.loc[i]['label'] == -1:
+        #         prompt = dedent(f"""
+        #         The following information describes conditions relevant to taxi journeys through a single day in Glasgow, Scotland.
 
-                News: {df['news'][i]}
-                Weather: {df['weather'][i]}
-                Traffic: {df['traffic'][i]}
+        #         News: {df.loc[i]['news']}
+        #         Weather: {df.loc[i]['weather']}
+        #         Traffic: {df.loc[i]['traffic']}
 
-                Summarise the above information in 3 sentences or less.
-                """)
-                df['summary'][i] = self.generate_summary(prompt)
+        #         Summarise the above information in 3 sentences or less.
+        #         """)
+        #         df.loc[i]['summary'] = self.generate_summary(prompt)
         date = datetime.datetime.now().strftime("%Y%m%d")
-        boto3.client('s3').put_object(Body=df.to_json(), Bucket=self.bucket_name, Key=f"clustered_summarized_{date}.json")
-
-    def generate_summary(self, prompt: str) -> str:
-        response = openai.Completion.create(
-            engine="davinci",
-            prompt=prompt,
-            temperature=0.3,
-            max_tokens=60,
-            top_p=1.0,
-            frequency_penalty=0.0,
-            presence_penalty=0.0,
-            stop=["\n"]
+        boto3.client('s3').put_object(
+            Body=df.to_json(orient='records'), 
+            Bucket=self.bucket_name, 
+            Key=f"clustered_summarized_{date}.json"
         )
-        return response['choices'][0]['text']
+    
+    def format_prompt(self, news: str, weather: str, traffic: str) -> str:
+        prompt = dedent(f'''
+                        The following information describes conditions relevant to taxi journeys through a single day in Glasgow, Scotland.
+
+                        News: {news}
+                        Weather: {weather}
+                        Traffic: {traffic}
+
+                        Summarise the above information in 3 sentences or less.
+                        ''')
+        return prompt
+    def generate_summary(self, prompt: str) -> str:
+        response = openai.ChatCompletion.create(
+            model = "gpt-3.5-turbo",
+            temperature = 0.3,
+            messages = [{"role": "user", "content": prompt}]
+        )
+        return response.choices[0].message['content']
+        # response = openai.Completion.create(
+        #     engine="davinci",
+        #     prompt=prompt,
+        #     temperature=0.3,
+        #     max_tokens=60,
+        #     top_p=1.0,
+        #     frequency_penalty=0.0,
+        #     presence_penalty=0.0,
+        #     stop=["\n"]
+        # )
+        #return response['choices'][0]['text']
