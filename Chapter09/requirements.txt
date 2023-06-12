@@ -184,7 +184,7 @@ torchvision==0.15.2
 tornado @ file:///Users/runner/miniforge3/conda-bld/tornado_1681817622718/work
 tqdm==4.65.0
 traitlets @ file:///home/conda/feedstock_root/build_artifacts/traitlets_1675110562325/work
-transformers==4.29.1
+transformers==4.30.0
 trove-classifiers==2023.3.9
 typing_extensions @ file:///home/conda/feedstock_root/build_artifacts/typing_extensions_1678559861143/work
 uri-template==1.2.0
