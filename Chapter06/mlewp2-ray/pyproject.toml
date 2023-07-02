@@ -20,6 +20,9 @@ protobuf = "<=3.20.2"
 tqdm = "^4.65.0"
 matplotlib = "^3.7.1"
 
+[tool.poetry2conda]
+name="mlewp-chapter06"
+
 
 [build-system]
 requires = ["poetry-core"]
