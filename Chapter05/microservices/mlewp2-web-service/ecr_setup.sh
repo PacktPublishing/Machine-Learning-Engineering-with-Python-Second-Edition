@@ -7,3 +7,7 @@ aws ecr create-repository \
 --region eu-west-1
 
 # 2. 
+
+# 3.
+
+# 4.

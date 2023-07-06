@@ -8,8 +8,8 @@ import logging
 app = Flask(__name__)
 api = Api(app)
 
-#forecaster = Forecaster()
-#api.add_resource(ForecastHandler, '/forecast', resource_class_kwargs={'forecaster': forecaster})
+forecaster = Forecaster()
+api.add_resource(ForecastHandler, '/forecast', resource_class_kwargs={'forecaster': forecaster})
 
 if __name__ == '__main__':
     logging.basicConfig(filename='app.log', level=logging.INFO, format='%(asctime)s | %(name)s | %(levelname)s | %(message)s')
