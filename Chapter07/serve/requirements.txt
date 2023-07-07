@@ -78,7 +78,7 @@ google-crc32c==1.5.0
 google-resumable-media==2.4.1
 googleapis-common-protos==1.59.0
 gpustat==1.1
-grpcio==1.43.0
+grpcio==1.53.0
 gunicorn==20.1.0
 h11==0.14.0
 hijri-converter==2.2.4
