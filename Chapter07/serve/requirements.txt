@@ -167,7 +167,7 @@ pyasn1==0.4.8
 pyasn1-modules==0.2.8
 pycparser==2.21
 pydantic==1.10.7
-Pygments==2.14.0
+Pygments==2.15.0
 PyJWT==2.6.0
 PyMeeus==0.5.12
 PyMySQL==1.0.3
