@@ -1,1 +1,0 @@
-kind create cluster --name mlewp-chapter07 --config kind-test2-config.yaml
