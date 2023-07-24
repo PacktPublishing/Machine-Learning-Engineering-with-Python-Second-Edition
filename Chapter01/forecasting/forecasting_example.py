@@ -111,7 +111,7 @@ if __name__ == "__main__":
     import os
     
     # If data present, read it in, otherwise, download it 
-    file_path = 'rossman_store_data/train.csv'
+    file_path = './train.csv'
     if os.path.exists(file_path):
         logging.info('Dataset found, reading into pandas dataframe.')
         df = pd.read_csv(file_path)
