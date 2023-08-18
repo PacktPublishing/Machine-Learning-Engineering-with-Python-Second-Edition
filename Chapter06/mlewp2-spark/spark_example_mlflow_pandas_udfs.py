@@ -23,7 +23,7 @@ from mlflow.tracking import MlflowClient
 import os
 
 # assume you have already run 'start-mlflow-server.sh'
-mlflow.set_tracking_uri("http://localhost:5000")
+mlflow.set_tracking_uri("http://localhost:5001")
 
 stage = 'Production'
 model_name = "sk-learn-std-scale-clf"

@@ -4,14 +4,16 @@ from pyspark.sql.types import StringType, IntegerType, DoubleType
 from pyspark.sql.functions import pandas_udf, udf
 from pyspark.sql import SparkSession
 
+import logging
+
 spark = SparkSession.builder.getOrCreate()
 
-from pyspark.sql.functions import pandas_udf, PandasUDFType
-@pandas_udf('double', PandasUDFType.SCALAR)
-def pandas_plus_one(v):
-    # `v` is a pandas Series
-    return v.add(1)  # outputs a pandas Series
-spark.range(10).select(pandas_plus_one("id")).show()
+# from pyspark.sql.functions import pandas_udf, PandasUDFType
+# @pandas_udf('double', PandasUDFType.SCALAR)
+# def pandas_plus_one(v):
+#     # `v` is a pandas Series
+#     return v.add(1)  # outputs a pandas Series
+# spark.range(10).select(pandas_plus_one("id")).show()
 
 
 #
