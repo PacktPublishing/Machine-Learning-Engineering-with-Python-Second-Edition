@@ -1,3 +1,35 @@
+#suggestion drom claude
+
+
+import ray
+from ray import data
+
+# Load data into Ray DataFrame
+df = data.read_csv("train.csv") 
+
+# Define preprocessing function
+@ray.remote
+def prep_store_data(df, store_id, store_open):
+  # Preprocess as before
+  ...
+
+# Preprocess data for each store
+store_dfs = []
+for store_id in store_ids:
+  store_df = prep_store_data.remote(df, store_id, 1)
+  store_dfs.append(store_df)
+
+ray_dfs = ray.get(store_dfs)
+
+# Concatenate store DataFrames
+dataframe = data.concat(ray_dfs)
+
+# Train models
+results = [train_predict.remote(df, 0.8, seasonality) 
+           for df in ray_dfs]
+
+# Rest of code as before
+#-----
 import ray.dataframe as rdf
 import ray
 import pandas as pd
