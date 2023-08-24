@@ -23,7 +23,9 @@ def ingest_and_prep_data(
     y = df['y'].apply(lambda x: 1 if x == 'yes' else 0).copy()
 
     # Train/test
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+    X_train, X_test, y_train, y_test = train_test_split(X, y, 
+                                                        test_size=0.2, 
+                                                        random_state=42)
 
     # Feature engineering
     enc = OneHotEncoder(handle_unknown='ignore')
@@ -84,6 +86,8 @@ if __name__ == "__main__":
     
     X_balanced, y_balanced = rebalance_classes(X_train, y_train)
     
-    rf_random = get_randomised_rf_cv(random_grid=get_hyperparam_grid())
+    rf_random = get_randomised_rf_cv(
+        random_grid=get_hyperparam_grid()
+        )
     
     rf_random.fit(X_balanced, y_balanced)
