@@ -1,39 +1,3 @@
-# #suggestion drom claude
-
-# import ray
-# from ray import data
-
-# # Load data into Ray DataFrame
-# dataset = data.read_csv("train.csv") 
-
-# # Define preprocessing function
-# @ray.remote
-# def prep_store_data(df, store_id, store_open):
-#     df['Date'] = pd.to_datetime(df['Date'])
-#     df.rename(columns= {'Date': 'ds', 'Sales': 'y'}, inplace=True)
-#     df_store = df[
-#         (df['Store'] == store_id) &\
-#         (df['Open'] == store_open)
-#     ].reset_index(drop=True)
-#     return df_store.sort_values('ds', ascending=True) 
-
-# # Preprocess data for each store
-# store_dfs = []
-# for store_id in store_ids:
-#   store_df = prep_store_data.remote(df, store_id, 1)
-#   store_dfs.append(store_df)
-
-# ray_dfs = ray.get(store_dfs)
-
-# # Concatenate store DataFrames
-# dataframe = data.concat(ray_dfs)
-
-# # Train models
-# results = [train_predict.remote(df, 0.8, seasonality) 
-#            for df in ray_dfs]
-
-# Rest of code as before
-#-----
 import ray.data
 import ray
 import pandas as pd
@@ -42,21 +6,27 @@ import logging
 import os
 import kaggle
 
+# for testing
+import time
+
 def download_kaggle_dataset(kaggle_dataset: str ="pratyushakar/rossmann-store-sales") -> None:
     api = kaggle.api
     print(api.get_config_value('username'))
     kaggle.api.dataset_download_files(kaggle_dataset, path="./", unzip=True, quiet=False)
 
-def prep_store_data(df: pd.DataFrame, store_id: int = 4, store_open: int = 1) -> pd.DataFrame:
-    df['Date'] = pd.to_datetime(df['Date'])
-    df.rename(columns= {'Date': 'ds', 'Sales': 'y'}, inplace=True)
+def prep_store_data(
+    df: pd.DataFrame, 
+    store_id: int = 4, 
+    store_open: int = 1
+    ) -> pd.DataFrame:
     df_store = df[
         (df['Store'] == store_id) &\
         (df['Open'] == store_open)
     ].reset_index(drop=True)
+    df_store['Date'] = pd.to_datetime(df_store['Date'])
+    df_store.rename(columns= {'Date': 'ds', 'Sales': 'y'}, inplace=True)
     return df_store.sort_values('ds', ascending=True) 
 
-#@ray.remote
 def train_predict(
     df: pd.DataFrame,
     train_fraction: float,
@@ -81,7 +51,7 @@ def train_predict(
     predicted = model.predict(df_test)
     return predicted, df_train, df_test, train_index
 
-@ray.remote(num_returns=4)
+@ray.remote(num_returns=4, num_cpus=2)
 def prep_train_predict(
     df: pd.DataFrame,
     store_id: int,
@@ -92,13 +62,6 @@ def prep_train_predict(
     df = prep_store_data(df, store_id=store_id, store_open=store_open)
     return train_predict(df, train_fraction, seasonality)    
     
-# Define a function to filter the data by store ID
-@ray.remote
-def filter_by_store_id(df, store_id):
-    store_data = df[df['Store'] == store_id]
-    return store_data#store_data.to_pandas()
-
-
 if __name__ == "__main__":
     # If data present, read it in, otherwise, download it 
     file_path = 'train.csv'
@@ -111,22 +74,17 @@ if __name__ == "__main__":
         logging.info('Reading dataset into pandas dataframe.')
         df = pd.read_csv(file_path)   
     
-    # Transform dataset in preparation for feeding to Prophet
-    #df = prep_store_data(df) #inefficient running this on full dataset ... could make remote as well.
-
-    # Convert the pandas DataFrame to a Ray DataFrame
-    dataset = ray.data.from_pandas(df)
-    #dataset = ray.data.read_csv(file_path)
+    # Convert the pandas DataFrame to a Ray DataFrame if you need this.
+    # dataset = ray.data.from_pandas(df)
+    
+    # You can read the data from a CSV file directly into a Ray DataFrame,
+    # but you need this to be in a specific format that our file doesn't have 
+    # For example, you'd need to remove the quotes from the csv header.
+    # dataset = ray.data.read_csv(file_path) 
 
     # Get the unique store IDs
-    # store_ids = dataset.unique("Store")
-    store_ids = df['Store'].unique()#[0:10] #remove [0:10]
-    # Spawn tasks to filter the data by store ID in parallel
-    #store_data = ray.get([filter_by_store_id.remote(dataset, store_id) for store_id in store_ids])
-    #filtered_store_data = ray.get([dataset.filter(lambda x: x["Store"]==store_id) for store_id in store_ids])
-    
-    # Spawn tasks to prep data
-    #prepped_store_data = ray.get([prep_store_data.remote(df, store_id, 1) for (df, store_id) in zip(filtered_store_data, store_ids)])
+    # store_ids = dataset.unique("Store") # if you were using Ray DataFrame
+    store_ids = df['Store'].unique()[0:50] #for testing
 
     # Define the parameters for the Prophet model
     seasonality = {
@@ -134,32 +92,50 @@ if __name__ == "__main__":
         'weekly': True,
         'daily': False
     }
-    # Spawn tasks to train the model for each store
-    # train_predict_tasks = [
-    #     prep_train_predict.remote(df, store_id) for store_id in store_ids
-    #     ]
     
+    start = time.time()
     pred_obj_refs, train_obj_refs, test_obj_refs, train_index_obj_refs = map(
         list,
-        zip(
-            *(
-                [prep_train_predict.remote(df, store_id) for store_id in store_ids]
-            )
-        ),
+        zip(*([prep_train_predict.remote(df, store_id) for store_id in store_ids])),
     )
+    #Note: could try this as a for loop for fairer comparison?
 
     predictions = ray.get(pred_obj_refs)
     train_data = ray.get(train_obj_refs)
     test_data = ray.get(test_obj_refs)
     train_indices = ray.get(train_index_obj_refs)
-    
-    # Get the results of the tasks
-    #results = ray.get(train_predict_tasks)
+    ray_core_time = time.time() - start
 
-    # # Concatenate the predicted dataframes for all stores
-    # predictions = pd.concat([result[0] for result in results])
-    # # Concatenate the training and test dataframes for all stores
-    # train_data = pd.concat([result[1] for result in results])
-    # test_data = pd.concat([result[2] for result in results])
-    # # Compute the training index for each store
-    # train_indices = [result[3] for result in results]
+    # print(f'''Predictions: \n{predictions}''')
+    # print(f'''Train Data: \n{train_data}''')
+    # print(f'''Test Data: \n{test_data}''')
+    # print(f'''Train Indices: \n{train_indices}''')
+    ray.shutdown()
+    #---------------------------------------------
+    # Serial training of the Prophet models with a 
+    # for loop for comparison
+    #---------------------------------------------
+    start = time.time()
+    predictions = []
+    train_data = []
+    test_data = []
+    train_indices = []
+    for store_id in store_ids:
+        df_store = prep_store_data(df, store_id=store_id)
+        predicted, df_train, df_test, train_index = train_predict(
+            df = df_store,
+            train_fraction = 0.8,
+            seasonality=seasonality
+        )
+        predictions.append(predicted)
+        train_data.append(df_train)
+        test_data.append(df_test)
+        train_indices.append(train_index)
+    serial_time = time.time() - start
+    
+    print(f"Models trained (Ray): {len(store_ids)}")
+    print(f"Time taken (Ray): {ray_core_time/60:.2f} minutes")
+    print(f"Models trained (serial): {len(store_ids)}")
+    print(f"Time taken (serial): {serial_time/60:.2f} minutes")
+
+    print("Done!")
