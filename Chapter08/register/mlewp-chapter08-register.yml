@@ -1,4 +1,4 @@
-name: mlewp-chapter07-register
+name: mlewp-chapter08-register
 channels:
   - conda-forge
 dependencies:
@@ -76,4 +76,4 @@ dependencies:
       - websocket-client==1.5.1
       - werkzeug==2.2.3
       - zipp==3.15.0
-prefix: /opt/homebrew/Caskroom/miniforge/base/envs/mlewp-chapter07-register
+prefix: /opt/homebrew/Caskroom/miniforge/base/envs/mlewp-chapter08-register
