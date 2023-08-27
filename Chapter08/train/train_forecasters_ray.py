@@ -51,7 +51,7 @@ def train_predict(
     predicted = model.predict(df_test)
     return predicted, df_train, df_test, train_index
 
-@ray.remote(num_returns=4, num_cpus=2)
+@ray.remote(num_returns=4)
 def prep_train_predict(
     df: pd.DataFrame,
     store_id: int,
@@ -84,7 +84,7 @@ if __name__ == "__main__":
 
     # Get the unique store IDs
     # store_ids = dataset.unique("Store") # if you were using Ray DataFrame
-    store_ids = df['Store'].unique()[0:50] #for testing
+    store_ids = df['Store'].unique()#[0:50] #for testing
 
     # Define the parameters for the Prophet model
     seasonality = {
@@ -92,18 +92,26 @@ if __name__ == "__main__":
         'weekly': True,
         'daily': False
     }
+    ray.init(num_cpus=4)
+    df_id = ray.put(df)
     
     start = time.time()
     pred_obj_refs, train_obj_refs, test_obj_refs, train_index_obj_refs = map(
         list,
-        zip(*([prep_train_predict.remote(df, store_id) for store_id in store_ids])),
+        zip(*([prep_train_predict.remote(df_id, store_id) for store_id in store_ids])),
     )
+    
     #Note: could try this as a for loop for fairer comparison?
-
-    predictions = ray.get(pred_obj_refs)
-    train_data = ray.get(train_obj_refs)
-    test_data = ray.get(test_obj_refs)
-    train_indices = ray.get(train_index_obj_refs)
+    ray_results = {
+        'predictions': ray.get(pred_obj_refs),
+        'train_data': ray.get(train_obj_refs),
+        'test_data': ray.get(test_obj_refs),
+        'train_indices': ray.get(train_index_obj_refs)
+    }
+    # predictions = ray.get(pred_obj_refs)
+    # train_data = ray.get(train_obj_refs)
+    # test_data = ray.get(test_obj_refs)
+    # train_indices = ray.get(train_index_obj_refs)
     ray_core_time = time.time() - start
 
     # print(f'''Predictions: \n{predictions}''')
@@ -131,6 +139,13 @@ if __name__ == "__main__":
         train_data.append(df_train)
         test_data.append(df_test)
         train_indices.append(train_index)
+        
+    serial_results = {
+        'predictions': predictions,
+        'train_data': train_data,
+        'test_data': test_data,
+        'train_indices': train_indices
+    }
     serial_time = time.time() - start
     
     print(f"Models trained (Ray): {len(store_ids)}")
