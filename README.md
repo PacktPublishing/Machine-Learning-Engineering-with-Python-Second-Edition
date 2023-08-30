@@ -16,7 +16,7 @@ Get hands-on with the latest in deployment architectures and discover methods fo
 With a new chapter on deep learning, generative AI, and LLMOps, you will learn to use tools like LangChain, PyTorch, and Hugging Face to leverage LLMs for supercharged analysis. You will explore AI assistants like GitHub Copilot to become more productive, then dive deep into the engineering considerations of working with deep learning. 
 
  
-## What you will learn
+## Key Takeaways
 - Plan and manage end-to-end ML development projects
 - Explore deep learning, LLMs, and LLMOps to leverage generative AI
 - Use Python to package your ML tools and scale up your solutions
