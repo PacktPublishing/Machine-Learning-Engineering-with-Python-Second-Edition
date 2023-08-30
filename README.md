@@ -172,15 +172,40 @@ By examining the integration of concepts from previous chapters, such as the ML 
 ## Software and hardware list
 | Chapter | Software required | Free/Proprietary | Can code testing be performed using a trial? | Cost of the software | Download Links to the software | Hardware specifications | OS required |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | Anaconda (>=v22.0) or Miniconda (>=v22.0) | Free | N/A | N/A | [Download](https://www.anaconda.com/download) | N/A | MacOS, Windows, or Linux |
-| 2 | * PyCharm or VSCode * Git and GitHub account - Atlassian JIRA - AWS Account | Proprietary with free version available - Free - Proprietary with free version available - Proprietary with CLI, etc. (free) | N/A - N/A - Yes - Yes | N/A - N/A - N/A - Free tier, followed by pay-as-you-go | [PyCharm](https://www.jetbrains.com/pycharm/download) - [VSCode](https://code.visualstudio.com/download) - [Git](https://www.atlassian.com/git/tutorials/install-git) - [GitHub](https://github.com/) - [Atlassian JIRA](https://www.atlassian.com/software/jira) - [AWS](https://aws.amazon.com/) | N/A | MacOS, Windows, or Linux |
-| 3 | - MLFlow - Tensorflow - PyTorch | Free - Free - Free | N/A - N/A - Yes - Yes | N/A | [MLFlow](https://mlflow.org/docs/latest/quickstart.html) - [Tensorflow](https://www.tensorflow.org/install) - [PyTorch](https://pytorch.org/get-started/locally/) | N/A | MacOS, Windows, or Linux |
-| 4 | Make | Free | N/A | N/A | [MacOS](https://formulae.brew.sh/formula/make) - Linux: Pre-installed - Recommend you work in Windows Subsystem for Linux and then Make should be available | N/A | MacOS, Windows, or Linux |
-| 5 | - Docker (v20.10) - Kind (>=v0.20) - Kubeflow Pipelines SDK (v1.8) - ZenML (>=0.40) - Apache Airflow (>=v2.6.0)  | Free | N/A | N/A | [Docker](https://docs.docker.com/engine/install/) - [Kind](https://kind.sigs.k8s.io/) - [Kubeflow Pipelines SDK](https://www.kubeflow.org/docs/started/installing-kubeflow/) - [ZenML](https://docs.zenml.io/getting-started/installation) - [Apache Airflow](https://airflow.apache.org/docs/apache-airflow/stable/installation/) | N/A | MacOS, Windows, or Linux |
-| 6 | - Apache Spark (>=v3.0) - Ray | Free - Free | N/A | N/A | [Apache Spark](https://spark.apache.org/downloads.html) - [Ray](https://docs.ray.io/en/latest/ray-overview/installation.html) | N/A | MacOS, Windows, or Linux (beta) |
-| 7 | OpenAI API Account | Proprietary | Requires an OpenAI account and API key | Model dependent: $0.0015-0.12/1k tokens | [OpenAI API](https://openai.com/blog/openai-api) | N/A | MacOS, Windows, or Linux |
-| 8 | Minikube (v1.30.0) | Free | N/A | N/A | [Minikube](https://minikube.sigs.k8s.io/docs/start/) | N/A | MacOS, Windows, or Linux |
-| 9 | Apache Airflow (>=v2.6.0) | Free | N/A | N/A | [Apache Airflow](https://airflow.apache.org/docs/apache-airflow/stable/installation/) | N/A | MacOS, Windows, or Linux |
+| 1 | Anaconda (>=v22.0) or Miniconda (>=v22.0) | Free | N/A | N/A | [https://www.anaconda.com/download](https://www.anaconda.com/download) | N/A | MacOS, Windows, or Linux |
+| 2 | • PyCharm or VSCode <br> • Git and GitHub account <br> • Atlassian JIRA <br> • AWS Account | • Proprietary with free version available <br> • Free <br> • Proprietary with free version available <br> • Proprietary with CLI, etc. free | • N/A <br> • N/A <br> • Yes <br> • Yes | • N/A <br> • N/A <br> • N/A <br> • Free tier, followed by pay as you go | • [https://www.jetbrains.com/pycharm/download](https://www.jetbrains.com/pycharm/download) <br> •[https://code.visualstudio.com/download](https://code.visualstudio.com/download) <br> • [https://www.atlassian.com/git/tutorials/install-git](https://www.atlassian.com/git/tutorials/install-git) <br> • [https://github.com/](https://github.com/) <br> •[https://www.atlassian.com/software/jira](https://www.atlassian.com/software/jira) <br> • [https://aws.amazon.com/](https://aws.amazon.com/) | N/A | MacOS, Windows, or Linux |
+| 3 | • MLFlow <br> • Tensorflow <br> • PyTorch | • Free <br> • Free <br> • Free | • N/A <br> • N/A <br> • Yes <br> • Yes | N/A | • [https://mlflow.org/docs/latest/quickstart.html](https://mlflow.org/docs/latest/quickstart.html) <br> •[https://www.tensorflow.org/install](https://www.tensorflow.org/install) <br> • [https://pytorch.org/get-started/locally/](https://pytorch.org/get-started/locally/) | N/A | MacOS, Windows, or Linux |
+| 4 |  Make | Free | N/A | N/A | • [https://formulae.brew.sh/formula/make](https://formulae.brew.sh/formula/make) <br> • Linux: Pre-installed <br> • Recommend you work in Windows Subsystem for Linux and then Make should be available  | N/A | MacOS, Windows, or Linux |
+| 5 | • Docker (v20.10) <br> • Kind (>=v0.20) <br> • Kubeflow Pipelines SDK (v1.8) <br> • ZenML (>=0.40) <br> • Apache Airflow (>=v2.6.0)  | Free | N/A | N/A | • [https://docs.docker.com/engine/install/](https://docs.docker.com/engine/install/) <br> • [https://kind.sigs.k8s.io](https://kind.sigs.k8s.io/) <br> • [https://www.kubeflow.org/docs/started/installing-kubeflow/](https://www.kubeflow.org/docs/started/installing-kubeflow/) <br> • [https://docs.zenml.io/getting-started/installation](https://docs.zenml.io/getting-started/installation) <br> • [https://airflow.apache.org/docs/apache-airflow/stable/installation/](https://airflow.apache.org/docs/apache-airflow/stable/installation/) | N/A | MacOS, Windows, or Linux |
+| 6 | • Apache Spark (>=v3.0) <br> • Ray | • Free <br> • Free | N/A | N/A | • [https://spark.apache.org/downloads.html](https://spark.apache.org/downloads.html) <br> • [https://docs.ray.io/en/latest/ray-overview/installation.html](https://docs.ray.io/en/latest/ray-overview/installation.html)  | N/A | MacOS, Windows, or Linux (beta) |
+| 7 | • OpenAI API Account | Proprietary | Requires an OpenAI account and API key | Model dependent: $0.0015-0.12/1k tokens | [https://openai.com/blog/openai-api](https://openai.com/blog/openai-api) | N/A | MacOS, Windows, or Linux |
+| 8 | • Minikube (v1.30.0) | Free | N/A | N/A | [https://minikube.sigs.k8s.io/docs/start/](https://minikube.sigs.k8s.io/docs/start/)  | N/A | MacOS, Windows, or Linux |
+| 9 | • Apache Airflow (>=v2.6.0) | Free | N/A | N/A | [https://airflow.apache.org/docs/apache-airflow/stable/installation/](https://airflow.apache.org/docs/apache-airflow/stable/installation/)  | N/A | MacOS, Windows, or Linux |
+
+
+## Know more on the Discord server <img alt="Coding" height="25" width="32"  src="https://cliply.co/wp-content/uploads/2021/08/372108630_DISCORD_LOGO_400.gif">
+You can get more engaged on the discord server for more latest updates and discussions in the community at [Discord](https://packt.link/mle)
+
+
+## Download a free PDF <img alt="Coding" height="25" width="40" src="https://emergency.com.au/wp-content/uploads/2021/03/free.gif">
+
+_If you have already purchased a print or Kindle version of this book, you can get a DRM-free PDF version at no cost. Simply click on the link to claim your free PDF._
+[Free-Ebook](https://packt.link/free-ebook/9781837631964) <img alt="Coding" height="15" width="35"  src="https://media.tenor.com/ex_HDD_k5P8AAAAi/habbo-habbohotel.gif">
+
+
+We also provide a PDF file that has color images of the screenshots/diagrams used in this book at [GraphicBundle](https://packt.link/LMqir) <img alt="Coding" height="15" width="35"  src="https://media.tenor.com/ex_HDD_k5P8AAAAi/habbo-habbohotel.gif">
+
+
+## Get to know the Author
+_Andrew Peter McMahon_ has spent years building high-impact ML products across a variety of industries. He is currently Head of MLOps for NatWest Group in the UK and has a PhD in theoretical condensed matter physics from Imperial College London. He is an active blogger, speaker, podcast guest, and leading voice in the MLOps community. He is co-host of the AI Right podcast and was named ‘Rising Star of the Year’ at the 2022 British Data Awards and ‘Data Scientist of the Year’ by the Data Science Foundation in 2019.
+
+
+## Other Related Books
+- [Deep Learning with TensorFlow and Keras – Third Edition](https://www.packtpub.com/product/deep-learning-with-tensorflow-and-keras-third-edition/9781803232911)
+- [Mastering Kubernetes - Fourth Edition](https://www.packtpub.com/product/mastering-kubernetes-fourth-edition/9781804611395)
+
+
+
 
 
 
