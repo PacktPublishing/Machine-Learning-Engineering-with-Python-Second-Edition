@@ -172,15 +172,7 @@ By examining the integration of concepts from previous chapters, such as the ML 
 ## Software and hardware list
 | Chapter | Software required | Free/Proprietary | Can code testing be performed using a trial? | Cost of the software | Download Links to the software | Hardware specifications | OS required |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 | Anaconda (>=v22.0) or Miniconda (>=v22.0) | Free | N/A | N/A | [Download](https://www.anaconda.com/download) | N/A | MacOS, Windows, or Linux |
-| 2 | - PyCharm or VSCode   - Git and GitHub account   - Atlassian JIRA   - AWS Account | Proprietary with free version available   Free   Proprietary with free version available   Proprietary with CLI, etc. (free) | N/A   N/A   Yes   Yes | N/A   N/A   N/A   Free tier, followed by pay-as-you-go | [PyCharm](https://www.jetbrains.com/pycharm/download)   [VSCode](https://code.visualstudio.com/download)   [Git](https://www.atlassian.com/git/tutorials/install-git)   [GitHub](https://github.com/)   [Atlassian JIRA](https://www.atlassian.com/software/jira)   [AWS](https://aws.amazon.com/) | N/A | MacOS, Windows, or Linux |
-| 3 | - MLFlow   - Tensorflow   - PyTorch | Free   Free   Free | N/A   N/A   Yes   Yes | N/A | [MLFlow](https://mlflow.org/docs/latest/quickstart.html)   [Tensorflow](https://www.tensorflow.org/install)   [PyTorch](https://pytorch.org/get-started/locally/) | N/A | MacOS, Windows, or Linux |
-| 4 | Make | Free | N/A | N/A | [MacOS](https://formulae.brew.sh/formula/make) - Linux: Pre-installed - Recommend you work in Windows Subsystem for Linux and then Make should be available | N/A | MacOS, Windows, or Linux |
-| 5 | - Docker (v20.10)   - Kind (>=v0.20)   - Kubeflow Pipelines SDK (v1.8)   - ZenML (>=0.40)   - Apache Airflow (>=v2.6.0)  | Free | N/A | N/A | [Docker](https://docs.docker.com/engine/install/)   [Kind](https://kind.sigs.k8s.io/)   [Kubeflow Pipelines SDK](https://www.kubeflow.org/docs/started/installing-kubeflow/)   [ZenML](https://docs.zenml.io/getting-started/installation)   [Apache Airflow](https://airflow.apache.org/docs/apache-airflow/stable/installation/) | N/A | MacOS, Windows, or Linux |
-| 6 | - Apache Spark (>=v3.0)   - Ray | Free   Free | N/A | N/A | [Apache Spark](https://spark.apache.org/downloads.html)   [Ray](https://docs.ray.io/en/latest/ray-overview/installation.html) | N/A | MacOS, Windows, or Linux (beta) |
-| 7 | OpenAI API Account | Proprietary | Requires an OpenAI account and API key | Model dependent: $0.0015-0.12/1k tokens | [OpenAI API](https://openai.com/blog/openai-api) | N/A | MacOS, Windows, or Linux |
-| 8 | Minikube (v1.30.0) | Free | N/A | N/A | [Minikube](https://minikube.sigs.k8s.io/docs/start/) | N/A | MacOS, Windows, or Linux |
-| 9 | Apache Airflow (>=v2.6.0) | Free | N/A | N/A | [Apache Airflow](https://airflow.apache.org/docs/apache-airflow/stable/installation/) | N/A | MacOS, Windows, or Linux |
+
 
 
 
