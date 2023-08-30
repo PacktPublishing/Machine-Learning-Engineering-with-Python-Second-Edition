@@ -6,7 +6,7 @@ More details are below, pick up [your copy](https://a.co/d/8EQvHH2) today!
 
 **Manage the production life cycle of machine learning models using MLOps with practical examples**
 
-The author of this book is -[Andrew Peter McMahon]((https://www.linkedin.com/in/andrew-p-mcmahon/)
+The author of this book is -[Andrew Peter McMahon](https://www.linkedin.com/in/andrew-p-mcmahon/)
 
 ## About the book
 The Second Edition of Machine Learning Engineering with Python is the practical guide that MLOps and ML engineers need to build solutions to real-world problems. It will provide you with the skills you need to stay ahead in this rapidly evolving field. 
