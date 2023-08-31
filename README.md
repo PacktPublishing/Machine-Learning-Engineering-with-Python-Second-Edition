@@ -6,7 +6,7 @@ More details are below, pick up [your copy](https://a.co/d/8EQvHH2) today!
 
 **Manage the production life cycle of machine learning models using MLOps with practical examples**
 
-The author of this book is -[Andrew Peter McMahon](https://www.linkedin.com/in/andrew-p-mcmahon/)
+The author of this book is - [Andrew Peter McMahon](https://www.linkedin.com/in/andrew-p-mcmahon/)
 
 ## About the book
 The Second Edition of Machine Learning Engineering with Python is the practical guide that MLOps and ML engineers need to build solutions to real-world problems. It will provide you with the skills you need to stay ahead in this rapidly evolving field.
@@ -133,7 +133,6 @@ The key takeaways from this chapter are a deeper understanding of Apache Spark a
 
 ### Chapter 07, Deep Learning, Generative AI, and LLMOps
 In Chapter 7, "Deep Learning, Generative AI and LLMOps," the book delves into the rapidly evolving landscape of machine learning and artificial intelligence. It acknowledges the profound changes in the ML and AI realms, with the proliferation of generative artificial intelligence (generative AI or GenAI) tools and large LLMs like ChatGPT, Bing AI, Google Bard, and DALL-E. The chapter aims to guide aspiring ML engineers through this dynamic landscape, providing a comprehensive understanding of the core concepts and foundations necessary to navigate this brave new world effectively.
-
 The chapter commences by revisiting the fundamental algorithmic approach of deep learning, exploring its theoretical underpinnings, and offering insights into building and hosting deep learning models. It then shifts its focus to GenAI and, more specifically, LLMs, such as ChatGPT. It deep dives into the workings and approaches behind these powerful text models, setting the stage for understanding the unique challenges and opportunities they bring. Additionally, the chapter introduces the concept of LLMOps, emphasizing how ML engineering and MLOps principles can be applied to LLMs and highlighting the nascent state of best practices in this domain. Overall, this chapter equips readers with a strong foundation in deep learning, GenAI, LLMs, and the evolving field of LLMOps, positioning them to navigate this transformative landscape confidently.
 
 #### Key Insights:
