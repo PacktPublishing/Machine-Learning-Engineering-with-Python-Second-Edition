@@ -1,6 +1,8 @@
 from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+from sklearn.linear_model import LogisticRegression
 
 numeric_features = ['age', 'balance']
 numeric_transformer = Pipeline(steps=[
@@ -18,7 +20,7 @@ preprocessor = ColumnTransformer(
 
 # Add classifier to the preprocessing pipeline
 clf_pipeline = Pipeline(steps=[('preprocessor', preprocessor),
-                      ('classifier', LogisticRegression())])
+                        ('classifier', LogisticRegression())])
 
 clf_pipeline.fit(X_train, y_train)
 
