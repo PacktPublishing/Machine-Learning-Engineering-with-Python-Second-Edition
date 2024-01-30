@@ -219,7 +219,9 @@ _"First, if we want to create a conda environment called mleng with Python versi
 ```console
 conda env --name mleng python=3.10
 ```
-creating a Conda environment called mleng with Python version 3.8, but the command specifies python=3.10. To align with the intended version, the text should be should be: 
+creating a Conda environment called mleng with Python version 3.8, but the command specifies python=3.10.
+To align with the intended version, the correct text should be: 
+
 **First, if we want to create a conda environment called mleng with Python version 3.10 installed**
 
 
