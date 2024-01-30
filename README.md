@@ -214,9 +214,9 @@ _Andrew Peter McMahon_ has spent years building high-impact ML products across a
 # Errata
 
 ## Page 52 - Package management (conda and pip)
-In page 52 the text mentions :
+In page 52 the text reads :
 _"First, if we want to create a conda environment called mleng with Python version 3.8 installed, we simply execute the following in our terminal:_ 
-```
+```console
 conda env --name mleng python=3.10
 ```
 creating a Conda environment called mleng with Python version 3.8, but the command specifies python=3.10. To align with the intended version, the text should be should be: 
