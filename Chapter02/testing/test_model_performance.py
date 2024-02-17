@@ -1,7 +1,5 @@
 import pytest
 import numpy as np
-from typing import Union
-import sklearn
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.datasets import load_wine
 from sklearn.model_selection import train_test_split
@@ -11,7 +9,7 @@ from sklearn.metrics import classification_report
 import joblib
 
 @pytest.fixture
-def test_dataset() -> Union[np.array, np.array]:
+def test_dataset() -> tuple[np.array, np.array]:
     # Load the dataset
     X, y = load_wine(return_X_y=True)
     # create an array of True for 2 and False otherwise
@@ -21,7 +19,7 @@ def test_dataset() -> Union[np.array, np.array]:
     return X_test, y_test
 
 @pytest.fixture
-def model() -> sklearn.ensemble._forest.RandomForestClassifier:
+def model() -> RandomForestClassifier:
     REPO_ID = "electricweegie/mlewp-sklearn-wine"
     FILENAME = "rfc.joblib"
     model = joblib.load(hf_hub_download(REPO_ID, FILENAME))
