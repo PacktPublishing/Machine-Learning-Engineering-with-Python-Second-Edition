@@ -60,7 +60,7 @@ dependencies:
       - hijri-converter==2.2.4
       - holidays==0.21.13
       - html5lib==1.1
-      - httpstan==4.9.1
+      - httpstan
       - idna==3.4
       - imbalanced-learn==0.10.1
       - imblearn==0.0
