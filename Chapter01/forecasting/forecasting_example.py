@@ -77,9 +77,9 @@ def plot_forecast(df_train: pd.DataFrame, df_test: pd.DataFrame, predicted: pd.D
     predicted = predicted.dropna()
     
     # Print debug information
-    print_debug_info(df_train, "df_train")
-    print_debug_info(df_test, "df_test")
-    print_debug_info(predicted, "predicted")
+    # print_debug_info(df_train, "df_train")
+    # print_debug_info(df_test, "df_test")
+    # print_debug_info(predicted, "predicted")
     
     fig, ax = plt.subplots(figsize=(20,10))
     df_test.plot(
@@ -105,12 +105,12 @@ def plot_forecast(df_train: pd.DataFrame, df_test: pd.DataFrame, predicted: pd.D
     
     try:
         # Print lengths and first few values to debug
-        print(f"Length of predicted['ds']: {len(predicted['ds'])}")
-        print(f"Length of predicted['yhat_upper']: {len(predicted['yhat_upper'])}")
-        print(f"Length of predicted['yhat_lower']: {len(predicted['yhat_lower'])}")
-        print(f"First few values of predicted['ds']: {predicted['ds'].head()}")
-        print(f"First few values of predicted['yhat_upper']: {predicted['yhat_upper'].head()}")
-        print(f"First few values of predicted['yhat_lower']: {predicted['yhat_lower'].head()}")
+        # print(f"Length of predicted['ds']: {len(predicted['ds'])}")
+        # print(f"Length of predicted['yhat_upper']: {len(predicted['yhat_upper'])}")
+        # print(f"Length of predicted['yhat_lower']: {len(predicted['yhat_lower'])}")
+        # print(f"First few values of predicted['ds']: {predicted['ds'].head()}")
+        # print(f"First few values of predicted['yhat_upper']: {predicted['yhat_upper'].head()}")
+        # print(f"First few values of predicted['yhat_lower']: {predicted['yhat_lower'].head()}")
         ax.fill_between(
             x=predicted['ds'], 
             y1=predicted['yhat_upper'], 
