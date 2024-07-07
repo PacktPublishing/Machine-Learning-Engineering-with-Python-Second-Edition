@@ -1,0 +1,12 @@
+imbalanced-learn==0.12.3
+imblearn==0.0
+joblib @ file:///home/conda/feedstock_root/build_artifacts/joblib_1714665484399/work
+numpy @ file:///Users/runner/miniforge3/conda-bld/numpy_1718615172319/work/dist/numpy-2.0.0-cp310-cp310-macosx_11_0_arm64.whl#sha256=87ef5e14dfda1954baa22c980ef1106245c8deb3903b3db9b214b9ef6c45d69d
+pandas @ file:///Users/runner/miniforge3/conda-bld/pandas_1715897645859/work
+python-dateutil @ file:///home/conda/feedstock_root/build_artifacts/python-dateutil_1709299778482/work
+pytz @ file:///home/conda/feedstock_root/build_artifacts/pytz_1706886791323/work
+scikit-learn @ file:///Users/runner/miniforge3/conda-bld/scikit-learn_1719998139114/work/dist/scikit_learn-1.5.1-cp310-cp310-macosx_11_0_arm64.whl#sha256=3a3666390773d49f321866f340869ec511b3089dfc8fd1f0244d305930b5018e
+scipy @ file:///Users/runner/miniforge3/conda-bld/scipy-split_1720323036795/work/dist/scipy-1.14.0-cp310-cp310-macosx_11_0_arm64.whl#sha256=b939069a5cdf606593597be906da29711202c602e3f753e5fbc9256c5a5e562d
+six @ file:///home/conda/feedstock_root/build_artifacts/six_1620240208055/work
+threadpoolctl @ file:///home/conda/feedstock_root/build_artifacts/threadpoolctl_1714400101435/work
+tzdata @ file:///home/conda/feedstock_root/build_artifacts/python-tzdata_1707747584337/work
