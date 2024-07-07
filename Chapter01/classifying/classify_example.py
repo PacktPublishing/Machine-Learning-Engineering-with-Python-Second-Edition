@@ -42,7 +42,7 @@ def get_hyperparam_grid() -> dict:
     # Hyperparameter optimisation
     n_estimators = [int(x) for x in np.linspace(start=200, stop=2000, num=10)]
     # Number of features to consider at every split
-    max_features = ['auto', 'sqrt']
+    max_features = ['log2', 'sqrt'] #['auto', 'sqrt'] #TODO: auto throws some errors, remove from book example?
     # Maximum number of levels in tree
     max_depth = [int(x) for x in np.linspace(10, 110, num=11)]
     max_depth.append(None)
