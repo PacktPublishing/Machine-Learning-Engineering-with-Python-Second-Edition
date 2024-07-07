@@ -58,8 +58,29 @@ def train_predict(
     predicted = model.predict(df_test)
     return predicted, df_train, df_test, train_index
 
-
+# Function to print and inspect data for debugging
+def print_debug_info(df, name):
+    print(f"Debug info for {name}:")
+    print(df.head())
+    print(df.dtypes)
+    print(df.isna().sum())
+    
 def plot_forecast(df_train: pd.DataFrame, df_test: pd.DataFrame, predicted: pd.DataFrame) -> None:
+    # Ensure data types are consistent
+    # df_train = df_train.apply(pd.to_numeric, errors='coerce')
+    # df_test = df_test.apply(pd.to_numeric, errors='coerce')
+    # predicted = predicted.apply(pd.to_numeric, errors='coerce')
+
+    # Drop or handle NaN values
+    df_train = df_train.dropna()
+    df_test = df_test.dropna()
+    predicted = predicted.dropna()
+    
+    # Print debug information
+    print_debug_info(df_train, "df_train")
+    print_debug_info(df_test, "df_test")
+    print_debug_info(predicted, "predicted")
+    
     fig, ax = plt.subplots(figsize=(20,10))
     df_test.plot(
         x='ds', 
@@ -81,13 +102,25 @@ def plot_forecast(df_train: pd.DataFrame, df_test: pd.DataFrame, predicted: pd.D
         markersize=5, 
         color='red'
     )
-    ax.fill_between(
-        x=predicted['ds'], 
-        y1=predicted['yhat_upper'], 
-        y2=predicted['yhat_lower'], 
-        alpha=0.15, 
-        color='red',
-    )
+    
+    try:
+        # Print lengths and first few values to debug
+        print(f"Length of predicted['ds']: {len(predicted['ds'])}")
+        print(f"Length of predicted['yhat_upper']: {len(predicted['yhat_upper'])}")
+        print(f"Length of predicted['yhat_lower']: {len(predicted['yhat_lower'])}")
+        print(f"First few values of predicted['ds']: {predicted['ds'].head()}")
+        print(f"First few values of predicted['yhat_upper']: {predicted['yhat_upper'].head()}")
+        print(f"First few values of predicted['yhat_lower']: {predicted['yhat_lower'].head()}")
+        ax.fill_between(
+            x=np.datetime64(predicted['ds']), 
+            y1=predicted['yhat_upper'], 
+            y2=predicted['yhat_lower'], 
+            alpha=0.15, 
+            color='red',
+        )
+    except Exception as e:
+        print(f"Error in fill_between: {e}")
+        
     df_train.iloc[train_index-100:].plot(
         x='ds', 
         y='y', 
@@ -137,6 +170,11 @@ if __name__ == "__main__":
         train_fraction = 0.8,
         seasonality=seasonality
     )
+    
+    # Debugging
+    # print(df_train.dtypes)
+    # print(df_test.dtypes)
+    # print(predicted.dtypes)
     
     # Plot the forecast
     plot_forecast(df_train, df_test, predicted)
