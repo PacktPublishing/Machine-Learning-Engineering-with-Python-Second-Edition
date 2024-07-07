@@ -112,7 +112,7 @@ def plot_forecast(df_train: pd.DataFrame, df_test: pd.DataFrame, predicted: pd.D
         print(f"First few values of predicted['yhat_upper']: {predicted['yhat_upper'].head()}")
         print(f"First few values of predicted['yhat_lower']: {predicted['yhat_lower'].head()}")
         ax.fill_between(
-            x=np.datetime64(predicted['ds']), 
+            x=predicted['ds'], 
             y1=predicted['yhat_upper'], 
             y2=predicted['yhat_lower'], 
             alpha=0.15, 
