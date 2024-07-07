@@ -161,7 +161,7 @@ cython_debug/
 
 #Other - potentially vs code
 .DS_Store
-*.DS_Store
+**/.DS_Store
 
 #MLFlow etc
-*/artifacts/model
+**/artifacts/model
