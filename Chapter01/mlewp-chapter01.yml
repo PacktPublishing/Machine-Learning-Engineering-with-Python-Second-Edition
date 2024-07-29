@@ -1,4 +1,4 @@
-name: mlewp-chapter01-hotfix
+name: mlewp-chapter01
 channels:
   - conda-forge
 dependencies:
