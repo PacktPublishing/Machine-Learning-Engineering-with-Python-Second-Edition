@@ -106,7 +106,7 @@ psutil==5.9.4
 ptyprocess==0.7.0
 pure-eval==0.2.2
 pycparser==2.21
-Pygments==2.14.0
+Pygments==2.15.0
 PyMeeus==0.5.12
 pyparsing==3.0.9
 pyproject_hooks==1.0.0
