@@ -15,7 +15,7 @@ from pprint import pprint
 
 if __name__=="__main__":
     # assume you have already run 'start-mlflow-server.sh'
-    mlflow.set_tracking_uri("http://localhost:5000")
+    mlflow.set_tracking_uri("http://localhost:8000")
 
     X, y = load_wine(return_X_y=True)
 

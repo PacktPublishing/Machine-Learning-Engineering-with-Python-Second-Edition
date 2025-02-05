@@ -161,10 +161,12 @@ cython_debug/
 
 #Other - potentially vs code
 *.DS_Store
-**/.DS_Store
+*/.DS_Store
 
 
 #MLFlow etc
 **/artifacts/model
 **/artifacts/** 
 **/mlruns/** 
+Chapter08/.DS_Store
+Chapter09/.DS_Store
