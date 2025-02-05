@@ -160,7 +160,7 @@ cython_debug/
 #.idea/
 
 #Other - potentially vs code
-.DS_Store
+*.DS_Store
 **/.DS_Store
 
 
