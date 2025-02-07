@@ -54,4 +54,3 @@ if __name__ == "__main__":
     study.optimize(partial(objective, n_folds=n_folds, X=X_train, y=y_train), n_trials=16)
 
     print(study.best_trial.params)
-    print(stu)

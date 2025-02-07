@@ -16,7 +16,7 @@ if __name__ == "__main__":
 
     # Get the data and place it in a spark dataframe
     data = spark.read.format("csv").option("sep", ";").option("inferSchema", "true").option("header", "true").load(
-        "../../chapter1/stream-classifier/data/bank/bank.csv")
+        "../Chapter01/classifying/bank_data/bank.csv")
 
     # map target to numerical category
     data = data.withColumn('label', f.when((f.col("y") == "yes"), 1).otherwise(0))
@@ -68,3 +68,5 @@ if __name__ == "__main__":
     # Define the entire pipeline and fit on the train data and transform on the test data
     clfPipeline = Pipeline().setStages(stages).fit(trainingData)
     clfPipeline.transform(testData)
+    
+    print(clfPipeline.transform(testData).show())
