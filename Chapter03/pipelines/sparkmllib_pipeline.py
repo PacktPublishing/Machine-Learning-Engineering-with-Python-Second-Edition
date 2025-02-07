@@ -68,3 +68,5 @@ if __name__ == "__main__":
     # Define the entire pipeline and fit on the train data and transform on the test data
     clfPipeline = Pipeline().setStages(stages).fit(trainingData)
     clfPipeline.transform(testData)
+    
+    print(clfPipeline.transform(testData).show())
