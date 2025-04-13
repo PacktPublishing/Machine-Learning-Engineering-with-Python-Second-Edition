@@ -1,0 +1,29 @@
+[tool.poetry]
+name = "mlewp2-ray"
+version = "0.1.0"
+description = ""
+authors = ["andymc629 <andrewpmcmahon629@gmail.com>"]
+readme = "README.md"
+packages = [{include = "mlewp2_ray"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+ray = {extras = ["air", "dashboard", "tune"], version = "^2.3.0"}
+pyarrow = ">=6.0.1"
+torch = ">=1.12"
+numpy = ">=1.19.5"
+ipykernel = "^6.21.3"
+jupyter = "^1.0.0"
+xgboost = "^1.7.4"
+xgboost-ray = "^0.1.15"
+protobuf = "<=3.20.2"
+tqdm = "^4.65.0"
+matplotlib = "^3.7.1"
+
+[tool.poetry2conda]
+name="mlewp-chapter06"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
