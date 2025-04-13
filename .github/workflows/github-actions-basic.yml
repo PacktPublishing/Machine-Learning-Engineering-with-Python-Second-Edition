@@ -2,9 +2,10 @@ name: Python package
 
 on:
   push:
-    branches: [main]
+    branches: [feature/actions]  # ← Ajouté pour tester aussi sur ta branche actuelle
   pull_request:
     branches: [main]
+  workflow_dispatch:  # ← Ajouté pour permettre un déclenchement manuel
 
 jobs:
   build:
