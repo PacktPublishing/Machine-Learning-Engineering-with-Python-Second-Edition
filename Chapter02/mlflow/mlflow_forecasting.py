@@ -1,10 +1,10 @@
 #BASED ON EXAMPLE FROM MLFLOW DOCS
 # https://github.com/mlflow/mlflow/blob/master/examples/prophet/train.py
 import pandas as pd
-from fbprophet import Prophet
+from prophet import Prophet
 
-from fbprophet.diagnostics import cross_validation
-from fbprophet.diagnostics import performance_metrics
+from prophet.diagnostics import cross_validation
+from prophet.diagnostics import performance_metrics
 
 import mlflow
 import mlflow.pyfunc
@@ -51,7 +51,9 @@ def train_predict(df_all_data, df_all_train_index, seasonality_params=seasonalit
         model.fit(df_train)
 
         # Evaluate Metrics
-        df_cv = cross_validation(model, initial="730 days", period="180 days", horizon="365 days")
+        #df_cv = cross_validation(model, initial="730 days", period="180 days", horizon="365 days")
+        df_cv = cross_validation(model, initial="600 days", period="90 days", horizon="120 days")
+
         df_p = performance_metrics(df_cv)
 
         # Print out metrics
@@ -74,14 +76,27 @@ def train_predict(df_all_data, df_all_train_index, seasonality_params=seasonalit
 
 if __name__ == "__main__":
     # Read in Data
-    df = pd.read_csv('../../Chapter01/forecasting-api/data/demand-forecasting-kernels-only/train.csv')
-    df.rename(columns={'date': 'ds', 'sales': 'y'}, inplace=True)
+    df = pd.read_csv('C:/Users/DELL/PycharmProjects/Machine-Learning-Engineering-with-Python-Second-Edition/Chapter01/forecasting/train.csv')
+    df.rename(columns={'Date': 'ds', 'Sales': 'y'}, inplace=True)
     # Filter out store and item 1
-    df_store1_item1 = df[(df['store'] == 1) & (df['item'] == 1)].reset_index(drop=True)
+    #print(df.columns)
+    #print(df.head())
 
-    train_index = int(0.8 * df_store1_item1.shape[0])
-    predicted, df_train, df_test = train_predict(
+    #df_store1_item1 = df[(df['Store'] == 1) & (df['item'] == 1)].reset_index(drop=True)
+    df_store1 = df[df['Store'] == 1].reset_index(drop=True)
+
+    #print(f"{len(df_store1)} rows")
+    #print(f"Start: {df_store1['ds'].min()}, End: {df_store1['ds'].max()}")
+    #train_index = int(0.8 * df_store1_item1.shape[0])
+    train_index = int(0.8 * df_store1.shape[0])
+    """predicted, df_train, df_test = train_predict(
         df_all_data=df_store1_item1,
+        df_all_train_index=train_index,
+        seasonality_params=seasonality
+    )"""
+
+    predicted, df_train, df_test = train_predict(
+        df_all_data=df_store1,
         df_all_train_index=train_index,
         seasonality_params=seasonality
     )

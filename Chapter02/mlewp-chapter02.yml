@@ -7,11 +7,9 @@ dependencies:
   - libffi=3.4.2
   - libsqlite=3.40.0
   - libzlib=1.2.13
-  - ncurses=6.3
   - openssl=3.1.0
   - pip=23.0.1
   - python=3.10.9
-  - readline=8.1.2
   - setuptools=67.6.0
   - tk=8.6.12
   - tzdata=2022g
@@ -170,7 +168,5 @@ dependencies:
       - webcolors==1.12
       - webencodings==0.5.1
       - websocket-client==1.5.1
-      - xattr==0.10.1
       - yarl==1.8.2
       - zipp==3.15.0
-prefix: /opt/homebrew/Caskroom/miniforge/base/envs/mlewp-chapter02
