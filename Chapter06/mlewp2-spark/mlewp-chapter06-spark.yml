@@ -1,0 +1,23 @@
+name: mlewp-spark-chapter06
+channels:
+  - conda-forge
+dependencies:
+  - bzip2=1.0.8=h3422bc3_4
+  - ca-certificates=2023.5.7=hf0a4a13_0
+  - libffi=3.4.2=h3422bc3_5
+  - libsqlite=3.42.0=hb31c410_0
+  - libzlib=1.2.13=h53f4e23_5
+  - ncurses=6.4=h7ea286d_0
+  - openssl=3.1.1=h53f4e23_1
+  - pip=23.1.2=pyhd8ed1ab_0
+  - python=3.10.8=h3ba56d0_0_cpython
+  - readline=8.2=h92ec313_1
+  - setuptools=67.7.2=pyhd8ed1ab_0
+  - tk=8.6.12=he1e0b03_0
+  - tzdata=2023c=h71feb2d_0
+  - wheel=0.40.0=pyhd8ed1ab_0
+  - xz=5.2.6=h57fd34a_0
+  - pip:
+      - py4j==0.10.9.7
+      - pyspark==3.4.1
+prefix: /opt/homebrew/Caskroom/miniforge/base/envs/mlewp-spark-chapter06

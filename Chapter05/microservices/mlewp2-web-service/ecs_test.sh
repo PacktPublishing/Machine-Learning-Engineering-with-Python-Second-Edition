@@ -1,0 +1,2 @@
+# Test the deployed load balancer, change the DNS if needed.
+curl -X POST basic-ml-microservice-lb-821201318.eu-west-1.elb.amazonaws.com:5000/forecast -H 'Content-Type: application/json' -d '{"store_number": 10, "forecast_start_date": "2023-07-01T00:00:00"}

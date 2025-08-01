@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "llms-langchain"
+version = "0.1.0"
+description = ""
+authors = ["andymc629 <andrewpmcmahon629@gmail.com>"]
+readme = "README.md"
+packages = [{include = "llms_langchain"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+openai = "^0.27.2"
+langchain = "^0.0.117"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

@@ -1,0 +1,21 @@
+# This yaml file gives me a cluster that allows for port forwarding.
+
+# Define the Kind cluster configuration
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: mlewp-ch7-cluster
+# Set the number of worker nodes
+nodes:
+# Set the control plane node
+- role: control-plane
+  # extraPortMappings:
+  # - containerPort: 80
+  #   hostPort: 8080
+  #   listenAddress: "127.0.0.1"
+  #   protocol: TCP
+- role: worker
+  # Set the first worker node
+- role: worker
+  # Set the second worker node
+# - role: worker
+#   # Set the third worker node
