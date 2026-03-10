@@ -35,17 +35,19 @@ def plot_store_data(df: pd.DataFrame) -> None:
 
         
 def train_predict(
-    df: pd.DataFrame, 
-    train_fraction: float, 
+    df: pd.DataFrame,
+    train_fraction: float,
     seasonality: dict
 ) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame, int]:
+
+    df['ds'] = pd.to_datetime(df['ds'])
     
     # grab split data
     train_index = int(train_fraction*df.shape[0])
     df_train = df.copy().iloc[0:train_index]
     df_test = df.copy().iloc[train_index:]
 
-    #create Prophet model
+    # create Prophet model
     model=Prophet(
         yearly_seasonality=seasonality['yearly'],
         weekly_seasonality=seasonality['weekly'],
@@ -64,86 +66,97 @@ def print_debug_info(df, name):
     print(df.head())
     print(df.dtypes)
     print(df.isna().sum())
-    
-def plot_forecast(df_train: pd.DataFrame, df_test: pd.DataFrame, predicted: pd.DataFrame) -> None:
-    # Ensure data types are consistent
-    # df_train = df_train.apply(pd.to_numeric, errors='coerce')
-    # df_test = df_test.apply(pd.to_numeric, errors='coerce')
-    # predicted = predicted.apply(pd.to_numeric, errors='coerce')
 
-    # Drop or handle NaN values
-    df_train = df_train.dropna()
-    df_test = df_test.dropna()
-    predicted = predicted.dropna()
-    
-    # Print debug information
-    # print_debug_info(df_train, "df_train")
-    # print_debug_info(df_test, "df_test")
-    # print_debug_info(predicted, "predicted")
-    
-    fig, ax = plt.subplots(figsize=(20,10))
+def plot_forecast(df_train: pd.DataFrame, df_test: pd.DataFrame, predicted: pd.DataFrame) -> None:
+    # Ensure correct dtypes
+    df_train['ds'] = pd.to_datetime(df_train['ds'])
+    df_train['y'] = pd.to_numeric(df_train['y'], errors='coerce')
+
+    df_test['ds'] = pd.to_datetime(df_test['ds'])
+    df_test['y'] = pd.to_numeric(df_test['y'], errors='coerce')
+
+    predicted['ds'] = pd.to_datetime(predicted['ds'])
+    predicted['yhat'] = pd.to_numeric(predicted['yhat'], errors='coerce')
+    predicted['yhat_upper'] = pd.to_numeric(predicted['yhat_upper'], errors='coerce')
+    predicted['yhat_lower'] = pd.to_numeric(predicted['yhat_lower'], errors='coerce')
+
+    # Drop NaNs
+    df_train.dropna(subset=['ds', 'y'], inplace=True)
+    df_test.dropna(subset=['ds', 'y'], inplace=True)
+    predicted.dropna(subset=['ds', 'yhat', 'yhat_upper', 'yhat_lower'], inplace=True)
+
+    fig, ax = plt.subplots(figsize=(20, 10))
+
+    # Plot truth (test)
     df_test.plot(
-        x='ds', 
-        y='y', 
-        ax=ax, 
-        label='Truth', 
-        linewidth=1, 
-        markersize=5, 
+        x='ds',
+        y='y',
+        ax=ax,
+        label='Truth',
+        linewidth=1,
+        markersize=5,
         color='tab:blue',
-        alpha=0.9, 
+        alpha=0.9,
         marker='o'
     )
+
+    # Plot prediction line
     predicted.plot(
-        x='ds', 
-        y='yhat', 
-        ax=ax, 
-        label='Prediction + 95% CI', 
-        linewidth=2, 
-        markersize=5, 
+        x='ds',
+        y='yhat',
+        ax=ax,
+        label='Prediction + 95% CI',
+        linewidth=2,
         color='red'
     )
-    
-    try:
-        # Print lengths and first few values to debug
-        # print(f"Length of predicted['ds']: {len(predicted['ds'])}")
-        # print(f"Length of predicted['yhat_upper']: {len(predicted['yhat_upper'])}")
-        # print(f"Length of predicted['yhat_lower']: {len(predicted['yhat_lower'])}")
-        # print(f"First few values of predicted['ds']: {predicted['ds'].head()}")
-        # print(f"First few values of predicted['yhat_upper']: {predicted['yhat_upper'].head()}")
-        # print(f"First few values of predicted['yhat_lower']: {predicted['yhat_lower'].head()}")
-        ax.fill_between(
-            x=predicted['ds'], 
-            y1=predicted['yhat_upper'], 
-            y2=predicted['yhat_lower'], 
-            alpha=0.15, 
-            color='red',
-        )
-    except Exception as e:
-        print(f"Error in fill_between: {e}")
-        
-    df_train.iloc[train_index-100:].plot(
-        x='ds', 
-        y='y', 
-        ax=ax, 
-        color='tab:blue', 
-        label='_nolegend_', 
-        alpha=0.5, 
+
+    # --- 🔐 Safe fill_between ---
+    ds = pd.to_datetime(predicted['ds']).values
+    y_upper = pd.to_numeric(predicted['yhat_upper'], errors='coerce').values
+    y_lower = pd.to_numeric(predicted['yhat_lower'], errors='coerce').values
+
+    # Create mask for finite values
+    mask = np.isfinite(ds) & np.isfinite(y_upper) & np.isfinite(y_lower)
+    if mask.sum() == 0:
+        raise ValueError("No valid data points for fill_between after cleaning.")
+
+    ax.fill_between(
+        x=ds[mask],
+        y1=y_upper[mask],
+        y2=y_lower[mask],
+        alpha=0.15,
+        color='red'
+    )
+    # ----------------------------
+
+    # Plot last 100 training points
+    df_train_tail = df_train.tail(100)
+    df_train_tail.plot(
+        x='ds',
+        y='y',
+        ax=ax,
+        color='tab:blue',
+        label='_nolegend_',
+        alpha=0.5,
         marker='o'
     )
-    current_ytick_values = plt.gca().get_yticks()
-    plt.gca().set_yticklabels(['{:,.0f}'.format(x) for x in current_ytick_values])
+
+    # Format labels
     ax.set_xlabel('Date')
     ax.set_ylabel('Sales')
-    plt.tight_layout()
-    plt.savefig('store_data_forecast.png')
+    current_yticks = ax.get_yticks()
+    ax.set_yticklabels(['{:,.0f}'.format(yt) for yt in current_yticks])
 
+    plt.tight_layout()
+    plt.savefig('store_data_forecast.png', dpi=150)
+    plt.close()
 
 
 
 if __name__ == "__main__":
     import os
-    
-    # If data present, read it in, otherwise, download it 
+
+    # If data present, read it in, otherwise, download it
     file_path = './train.csv'
     if os.path.exists(file_path):
         logging.info('Dataset found, reading into pandas dataframe.')
@@ -152,30 +165,30 @@ if __name__ == "__main__":
         logging.info('Dataset not found, downloading ...')
         download_kaggle_dataset()
         logging.info('Reading dataset into pandas dataframe.')
-        df = pd.read_csv(file_path)   
-    
+        df = pd.read_csv(file_path)
+
     # Transform dataset in preparation for feeding to Prophet
     df = prep_store_data(df)
-    
+
     # Define main parameters for modelling
     seasonality = {
         'yearly': True,
         'weekly': True,
         'daily': False
     }
-    
+
     # Calculate the relevant dataframes
     predicted, df_train, df_test, train_index = train_predict(
         df = df,
         train_fraction = 0.8,
         seasonality=seasonality
     )
-    
+
     # Debugging
     # print(df_train.dtypes)
     # print(df_test.dtypes)
     # print(predicted.dtypes)
-    
+
     # Plot the forecast
     plot_forecast(df_train, df_test, predicted)
         
